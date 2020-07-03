@@ -2,6 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
+// 引入接口以及 http  请求
+
+import './../../config/config.dart';
+import 'package:dio/dio.dart';
+//轮播图类模型：
+import './../../model/FocusModel.dart';
+// 热门推荐模型：
+import './../../model/ProductModel.dart';
+
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
 
@@ -10,30 +19,81 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  // 轮播图数据
+  List _focusData = [];
+  // 猜你喜欢数据
+  List _hotProductList = [];
+  // 热门推荐数据
+  List _bestProductList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _getFocusData();
+    _getHotProductData();
+    _getBestProductList();
+  }
+
+// 获取轮播图数据
+  _getFocusData() async {
+    var api = '${Config.domain}api/focus';
+    var result = await Dio().get(api);
+    var focusList = FocusModel.fromJson(result.data);
+    setState(() {
+      this._focusData = focusList.result;
+    });
+  }
+
+  //获取猜你喜欢的数据：
+  _getHotProductData() async {
+    var api = '${Config.domain}api/plist?is_hot=1';
+    var result = await Dio().get(api);
+    var _hotProductList = ProductModel.fromJson(result.data);
+    setState(() {
+      this._hotProductList = _hotProductList.result;
+    });
+  }
+
+  //获取热门推荐的数据：
+  _getBestProductList() async {
+    var api = '${Config.domain}api/plist?is_best=1';
+    var result = await Dio().get(api);
+    var bestProductList = ProductModel.fromJson(result.data);
+    setState(() {
+      this._bestProductList = bestProductList.result;
+    });
+  }
+
   // 轮播图
   Widget _swiperWidget() {
-    List<Map> imgList = [
+    /*  List<Map> imgList = [
       {"url": "https://www.itying.com/images/flutter/slide01.jpg"},
       {"url": "https://www.itying.com/images/flutter/slide02.jpg"},
       {"url": "https://www.itying.com/images/flutter/slide03.jpg"}
-    ];
-    return Container(
-      child: AspectRatio(
-        aspectRatio: 2 / 1,
-        child: Swiper(
-          itemCount: imgList.length,
-          autoplay: true,
-          pagination: new SwiperPagination(), //默认分页器
-          control: new SwiperControl(), //默认分页按钮
-          itemBuilder: (BuildContext context, int index) {
-            return new Image.network(
-              imgList[index]['url'],
-              fit: BoxFit.fill,
-            );
-          },
+    ]; */
+    if (this._focusData.length > 0) {
+      return Container(
+        child: AspectRatio(
+          aspectRatio: 2 / 1,
+          child: Swiper(
+            itemCount: this._focusData.length,
+            autoplay: true,
+            pagination: new SwiperPagination(), //默认分页器
+            control: new SwiperControl(), //默认分页按钮
+            itemBuilder: (BuildContext context, int index) {
+              String pic = this._focusData[index].pic;
+              pic = Config.domain + pic.replaceAll('\\', '/');
+              return new Image.network(
+                '${pic}',
+                fit: BoxFit.fill,
+              );
+            },
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      return Text('加载中...');
+    }
   }
   // 标题
 
@@ -61,97 +121,117 @@ class _HomePageState extends State<HomePage> {
 
   //热门商品：
   Widget _hotProductListWidget() {
-    return Container(
-      height: ScreenUtil().setHeight(240),
-      padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
-      // width: double.infinity, //寬度自適應
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          return Column(
-            children: <Widget>[
-              Container(
-                height: ScreenUtil().setHeight(140),
-                width: ScreenUtil().setWidth(140),
-                margin: EdgeInsets.only(right: ScreenUtil().setWidth(21)),
-                child: Image.network(
-                  'https://www.itying.com/images/flutter/hot${index + 1}.jpg',
-                  fit: BoxFit.fill,
+    if (this._hotProductList.length > 0) {
+      return Container(
+        height: ScreenUtil().setHeight(240),
+        padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
+        // width: double.infinity, //寬度自適應
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            String sPic = this._hotProductList[index].sPic;
+            sPic = Config.domain + sPic.replaceAll('\\', '/');
+            return Column(
+              children: <Widget>[
+                Container(
+                  height: ScreenUtil().setHeight(140),
+                  width: ScreenUtil().setWidth(140),
+                  margin: EdgeInsets.only(right: ScreenUtil().setWidth(21)),
+                  child: Image.network(
+                    '${sPic}',
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
-                height: ScreenUtil().setHeight(44),
-                child: Text('第${index}条'),
-              )
-            ],
-          );
-        },
-        itemCount: 9,
-      ),
-    );
+                Container(
+                  padding: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
+                  height: ScreenUtil().setHeight(44),
+                  child: Text(
+                    '${this._hotProductList[index].price}',
+                    style: TextStyle(color: Colors.red),
+                  ),
+                )
+              ],
+            );
+          },
+          itemCount: this._hotProductList.length,
+        ),
+      );
+    } else {
+      return Text('暂无热门推荐数据');
+    }
   }
 
   // 首页商品列表
   Widget _recProductItemListWidget() {
     var itemWidth = (ScreenUtil.screenWidth - 30) / 2;
     return Container(
-      padding: EdgeInsets.all(ScreenUtil().setWidth(20)),
-      width: itemWidth,
-      decoration: BoxDecoration(
-        border: Border.all(
-          width: 1,
-          color: Colors.black12,
-        ),
-      ),
-      child: Column(
-        children: <Widget>[
-          Container(
-            width: double.infinity,
-            child: AspectRatio(
-              aspectRatio: 1 / 1,
-              child: Image.network(
-                "https://www.itying.com/images/flutter/list1.jpg",
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
-            child: Text(
-              '2020随访随访地方2020随访随访地方,2020随访随访地方,2020随访随访地方,,',
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: Colors.black54),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: ScreenUtil().setHeight(20)),
-            child: Stack(
-              children: <Widget>[
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    '2323',
-                    style: TextStyle(color: Colors.red, fontSize: 16),
-                  ),
+      padding: EdgeInsets.all(10),
+      child: Wrap(
+          runSpacing: 10,
+          spacing: 10,
+          children: this._bestProductList.map((value) {
+            var sPic = value.sPic;
+            sPic = Config.domain + sPic.replaceAll('\\', '/');
+            return Container(
+              padding: EdgeInsets.all(ScreenUtil().setWidth(20)),
+              width: itemWidth,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  width: 1,
+                  color: Colors.black12,
                 ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    '3434',
-                    style: TextStyle(
-                      color: Colors.black54,
-                      fontSize: 16,
-                      decoration: TextDecoration.lineThrough,
+              ),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    width: double.infinity,
+                    child: AspectRatio(
+                      aspectRatio: 1 / 1,
+                      child: Image.network(
+                        // "https://www.itying.com/images/flutter/list1.jpg",
+                        '${sPic}',
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                )
-              ],
-            ),
-          ),
-        ],
-      ),
+                  Padding(
+                    padding: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
+                    child: Text(
+                      '${value.title}',
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(color: Colors.black54),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: ScreenUtil().setHeight(20)),
+                    child: Stack(
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            '${value.price}',
+                            style: TextStyle(color: Colors.red, fontSize: 16),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            '¥${value.oldPrice}',
+                            style: TextStyle(
+                              color: Colors.black54,
+                              fontSize: 16,
+                              decoration: TextDecoration.lineThrough,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }).toList()),
     );
   }
 
@@ -169,7 +249,8 @@ class _HomePageState extends State<HomePage> {
           height: ScreenUtil().setHeight(10),
         ),
         _titleWidget("热门推荐"),
-        Container(
+        _recProductItemListWidget(),
+        /*    Container(
           padding: EdgeInsets.all(10),
           child: Wrap(
             runSpacing: 10,
@@ -183,7 +264,7 @@ class _HomePageState extends State<HomePage> {
               _recProductItemListWidget()
             ],
           ),
-        )
+        ) */
       ],
     );
   }
