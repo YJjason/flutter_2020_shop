@@ -59,6 +59,39 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  //热门商品：
+  Widget _hotProductListWidget() {
+    return Container(
+      height: ScreenUtil().setHeight(240),
+      padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
+      // width: double.infinity, //寬度自適應
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          return Column(
+            children: <Widget>[
+              Container(
+                height: ScreenUtil().setHeight(140),
+                width: ScreenUtil().setWidth(140),
+                margin: EdgeInsets.only(right: ScreenUtil().setWidth(21)),
+                child: Image.network(
+                  'https://www.itying.com/images/flutter/hot${index + 1}.jpg',
+                  fit: BoxFit.fill,
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
+                height: ScreenUtil().setHeight(44),
+                child: Text('第${index}条'),
+              )
+            ],
+          );
+        },
+        itemCount: 9,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -66,6 +99,7 @@ class _HomePageState extends State<HomePage> {
         _swiperWidget(),
         SizedBox(height: 10),
         _titleWidget("猜你喜欢"),
+        _hotProductListWidget(),
         SizedBox(height: 10),
         _swiperWidget(),
       ],
