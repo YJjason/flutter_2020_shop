@@ -22,7 +22,9 @@ class _TabsState extends State<Tabs> {
   ];
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init();
     ScreenUtil.init(width: 750, height: 1334, allowFontScaling: false);
+    // print('设备宽度:${ScreenUtil.screenWidth}px');
     return Scaffold(
       appBar: AppBar(
         title: Text('jdshop'),

@@ -19,4 +19,5 @@ samples, guidance on mobile development, and a full API reference.
  封装适配库以及实现左右滑动ListView
  1.使用 flutter_screenutil 组件适配不同手机尺寸
  2.实现左右滑动ListView
- 
+ ## chapter_03
+  首页商品列表布局

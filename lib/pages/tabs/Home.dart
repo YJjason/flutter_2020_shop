@@ -92,16 +92,98 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  // 首页商品列表
+  Widget _recProductItemListWidget() {
+    var itemWidth = (ScreenUtil.screenWidth - 30) / 2;
+    return Container(
+      padding: EdgeInsets.all(ScreenUtil().setWidth(20)),
+      width: itemWidth,
+      decoration: BoxDecoration(
+        border: Border.all(
+          width: 1,
+          color: Colors.black12,
+        ),
+      ),
+      child: Column(
+        children: <Widget>[
+          Container(
+            width: double.infinity,
+            child: AspectRatio(
+              aspectRatio: 1 / 1,
+              child: Image.network(
+                "https://www.itying.com/images/flutter/list1.jpg",
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
+            child: Text(
+              '2020随访随访地方2020随访随访地方,2020随访随访地方,2020随访随访地方,,',
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(color: Colors.black54),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: ScreenUtil().setHeight(20)),
+            child: Stack(
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    '2323',
+                    style: TextStyle(color: Colors.red, fontSize: 16),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    '3434',
+                    style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: 16,
+                      decoration: TextDecoration.lineThrough,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: <Widget>[
         _swiperWidget(),
-        SizedBox(height: 10),
+        SizedBox(
+          height: ScreenUtil().setHeight(10),
+        ),
         _titleWidget("猜你喜欢"),
         _hotProductListWidget(),
-        SizedBox(height: 10),
-        _swiperWidget(),
+        SizedBox(
+          height: ScreenUtil().setHeight(10),
+        ),
+        _titleWidget("热门推荐"),
+        Container(
+          padding: EdgeInsets.all(10),
+          child: Wrap(
+            runSpacing: 10,
+            spacing: 10,
+            children: <Widget>[
+              _recProductItemListWidget(),
+              _recProductItemListWidget(),
+              _recProductItemListWidget(),
+              _recProductItemListWidget(),
+              _recProductItemListWidget(),
+              _recProductItemListWidget()
+            ],
+          ),
+        )
       ],
     );
   }
