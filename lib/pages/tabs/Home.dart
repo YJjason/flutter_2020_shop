@@ -53,7 +53,7 @@ class _HomePageState extends State<HomePage> {
       child: Text(
         value,
         style: TextStyle(
-          color: Colors.black45,
+          color: Colors.black54,
         ),
       ),
     );

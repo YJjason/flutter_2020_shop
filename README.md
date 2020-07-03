@@ -14,3 +14,8 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## chapter-02
+ 封装适配库以及实现左右滑动ListView
+ 使用 flutter_screenutil 组件适配不同手机尺寸
+ 
