@@ -1,4 +1,4 @@
-//商品模型
+//首页 商品模型
 class ProductModel {
   List<ProductItemModel> result;
   ProductModel({this.result});

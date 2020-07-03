@@ -21,6 +21,8 @@ samples, guidance on mobile development, and a full API reference.
  2.实现左右滑动ListView
  ## chapter_03
   首页商品列表布局
- ## chapter_03
+ ## chapter_04
   JSON和序列化反序列化、创建模型类转换Json数据、轮播图数据渲染:
   Flutter创建商品数据模型 、请求Api接口渲染热门商品 推荐商品
+ ## chapter_05
+  商品分类数据模型CateModel.dart 页面数据请求展示
