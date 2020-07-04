@@ -26,3 +26,5 @@ samples, guidance on mobile development, and a full API reference.
   Flutter创建商品数据模型 、请求Api接口渲染热门商品 推荐商品
  ## chapter_05
   商品分类数据模型CateModel.dart 页面数据请求展示
+  ## chapter_06
+  AutomaticKeepAliveClientMixin：保此部分页面的状态：

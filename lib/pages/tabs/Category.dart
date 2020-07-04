@@ -3,7 +3,6 @@ import 'package:flutter_2020/model/CateModel.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import './../../config/config.dart';
 import 'package:dio/dio.dart';
-import 'dart:convert' as convert;
 
 //商品模型
 import './../../model/CateModel.dart';
@@ -15,10 +14,13 @@ class CategoryPage extends StatefulWidget {
   _CategoryPageState createState() => _CategoryPageState();
 }
 
-class _CategoryPageState extends State<CategoryPage> {
+class _CategoryPageState extends State<CategoryPage>
+    with AutomaticKeepAliveClientMixin {
   int _selectIndex = 0;
   List _leftCateList = [];
   List _rightCateList = [];
+  @override
+  bool get wantKeepAlive => true;
   @override
   void initState() {
     // TODO: implement initState

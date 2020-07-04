@@ -18,14 +18,17 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin {
   // 轮播图数据
   List _focusData = [];
   // 猜你喜欢数据
   List _hotProductList = [];
   // 热门推荐数据
   List _bestProductList = [];
-
+  @override
+  // 跳转页面保持当前页面状态
+  bool get wantKeepAlive => true;
   @override
   void initState() {
     super.initState();
@@ -95,8 +98,8 @@ class _HomePageState extends State<HomePage> {
       return Text('加载中...');
     }
   }
-  // 标题
 
+  // 标题
   Widget _titleWidget(value) {
     return Container(
       height: ScreenUtil().setHeight(46),
@@ -250,21 +253,6 @@ class _HomePageState extends State<HomePage> {
         ),
         _titleWidget("热门推荐"),
         _recProductItemListWidget(),
-        /*    Container(
-          padding: EdgeInsets.all(10),
-          child: Wrap(
-            runSpacing: 10,
-            spacing: 10,
-            children: <Widget>[
-              _recProductItemListWidget(),
-              _recProductItemListWidget(),
-              _recProductItemListWidget(),
-              _recProductItemListWidget(),
-              _recProductItemListWidget(),
-              _recProductItemListWidget()
-            ],
-          ),
-        ) */
       ],
     );
   }
