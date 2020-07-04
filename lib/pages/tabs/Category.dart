@@ -80,7 +80,10 @@ class _CategoryPageState extends State<CategoryPage>
                         ? Color.fromRGBO(240, 246, 246, 0.9)
                         : Colors.white,
                   ),
-                )
+                ),
+                Divider(
+                  height: 1,
+                ),
               ],
             );
           },
@@ -115,22 +118,28 @@ class _CategoryPageState extends State<CategoryPage>
               //处理图片：
               String pic = this._rightCateList[index].pic;
               pic = Config.domain + pic.replaceAll('\\', '/');
-              return Container(
-                child: Column(
-                  children: <Widget>[
-                    AspectRatio(
-                      aspectRatio: 1 / 1,
-                      child: Image.network(
-                        '${pic}',
-                        fit: BoxFit.cover,
+              return InkWell(
+                child: Container(
+                  child: Column(
+                    children: <Widget>[
+                      AspectRatio(
+                        aspectRatio: 1 / 1,
+                        child: Image.network(
+                          '${pic}',
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                    ),
-                    Container(
-                      height: ScreenUtil().setHeight(32),
-                      child: Text('${this._rightCateList[index].title}'),
-                    )
-                  ],
+                      Container(
+                        height: ScreenUtil().setHeight(32),
+                        child: Text('${this._rightCateList[index].title}'),
+                      )
+                    ],
+                  ),
                 ),
+                onTap: () {
+                  Navigator.pushNamed(context, '/productList',
+                      arguments: {"cid": this._rightCateList[index].sId});
+                },
               );
             },
           ),

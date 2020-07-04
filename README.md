@@ -28,3 +28,5 @@ samples, guidance on mobile development, and a full API reference.
   商品分类数据模型CateModel.dart 页面数据请求展示
   ## chapter_06
   AutomaticKeepAliveClientMixin：保此部分页面的状态：
+   ## chapter_06
+   商品分类跳转到商品列表传值 商品列表页面布局

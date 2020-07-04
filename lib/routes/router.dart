@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import './../pages/tabs/Tabs.dart';
 import './../pages/Search.dart';
 
+import './../pages/ProductList.dart';
+
 //配置路由的地方：
 final routes = {
   '/': (context) => Tabs(),
   '/search': (context) => SearchPage(),
+  '/productList': (context, {arguments}) =>
+      ProductListPage(arguments: arguments),
 };
 
 // 路由传参 固定写法
 var onGenerateRoute = (RouteSettings settings) {
-  print('settings----${settings}');
   // 统一处理
   final String name = settings.name;
   final Function pageContentBuilder = routes[name];
