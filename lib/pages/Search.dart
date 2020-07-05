@@ -36,7 +36,9 @@ class _SearchPageState extends State<SearchPage> {
               height: ScreenUtil().setHeight(60),
               child: Row(
                 children: <Widget>[
-                  Text('搜索'),
+                  Text(
+                    '搜索',
+                  ),
                 ],
               ),
             ),
@@ -44,7 +46,113 @@ class _SearchPageState extends State<SearchPage> {
           ),
         ],
       ),
-      body: Text('搜索'),
+      body: Container(
+        padding: EdgeInsets.all(10),
+        child: ListView(
+          children: <Widget>[
+            Container(
+              child: Text(
+                '热搜',
+                style: Theme.of(context).textTheme.title,
+              ),
+            ),
+            Divider(),
+            Wrap(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.all(10),
+                  margin: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Color.fromRGBO(233, 233, 233, 0.9),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text('女装'),
+                ),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  margin: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Color.fromRGBO(233, 233, 233, 0.9),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text('女装'),
+                ),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  margin: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Color.fromRGBO(233, 233, 233, 0.9),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text('女装'),
+                ),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  margin: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Color.fromRGBO(233, 233, 233, 0.9),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text('女装'),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              child: Text(
+                '记录',
+                style: Theme.of(context).textTheme.title,
+              ),
+            ),
+            Divider(),
+            Column(
+              children: <Widget>[
+                ListTile(
+                  title: Text('女装'),
+                ),
+                Divider(),
+                ListTile(
+                  title: Text('女装'),
+                ),
+                Divider(),
+                ListTile(
+                  title: Text('女装'),
+                ),
+                Divider(),
+                ListTile(
+                  title: Text('女装'),
+                ),
+                Divider(),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            InkWell(
+              onTap: () {},
+              child: Container(
+                width: ScreenUtil().setWidth(400),
+                height: ScreenUtil().setHeight(64),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    width: 1,
+                    color: Colors.black54,
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(Icons.delete),
+                    Text('清空历史记录'),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

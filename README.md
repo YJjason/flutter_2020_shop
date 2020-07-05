@@ -38,5 +38,7 @@ samples, guidance on mobile development, and a full API reference.
   商品列表筛选以及上拉分页加载更多
 ## chapter_10
   头部搜索导航布局 修改主题 修正ScreenAdapter类
+## chapter_10
+  Flutter仿京东商城项目 搜索页面布局
 
 
