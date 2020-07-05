@@ -20,7 +20,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       // home: Tabs(),
-      initialRoute: '/productList', // 使用路由对应页面
+      initialRoute: '/', // 使用路由对应页面
       onGenerateRoute: onGenerateRoute,
     );
   }

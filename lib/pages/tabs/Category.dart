@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_2020/model/CateModel.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import './../../config/config.dart';
 import 'package:dio/dio.dart';
@@ -137,8 +136,14 @@ class _CategoryPageState extends State<CategoryPage>
                   ),
                 ),
                 onTap: () {
-                  Navigator.pushNamed(context, '/productList',
-                      arguments: {"cid": this._rightCateList[index].sId});
+                  print('sId-----${this._rightCateList[index].sId}');
+                  Navigator.pushNamed(
+                    context,
+                    '/productList',
+                    arguments: {
+                      "cid": this._rightCateList[index].sId,
+                    },
+                  );
                 },
               );
             },

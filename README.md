@@ -32,4 +32,7 @@ samples, guidance on mobile development, and a full API reference.
   商品分类跳转到商品列表传值 商品列表页面布局
 ## chapter_07
   商品列表页面二级筛选导航布局
+## chapter_07
+  商品列表页面请求数据、封装Loading Widget、上拉分页加载更多
+
 
