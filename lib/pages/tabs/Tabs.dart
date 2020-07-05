@@ -34,19 +34,54 @@ class _TabsState extends State<Tabs> {
     ScreenUtil.init();
     ScreenUtil.init(width: 750, height: 1334, allowFontScaling: false);
     return Scaffold(
-      appBar: AppBar(
+      /*  appBar: AppBar(
         title: Text('jdshop'),
-      ),
-      //页面状态保持第一种方法：
-      //保持所有的页面状态，使用indexedStack
-      /*  body: IndexedStack(
-        index: this._currentIndex,
-        children: _pageList,
       ), */
+      appBar: _currentIndex != 3
+          ? AppBar(
+              leading: IconButton(
+                icon: Icon(Icons.center_focus_weak,
+                    size: 28, color: Colors.black87),
+                onPressed: null,
+              ),
+              title: InkWell(
+                child: Container(
+                  height: ScreenUtil().setHeight(56),
+                  decoration: BoxDecoration(
+                      color: Color.fromRGBO(233, 233, 233, 0.8),
+                      borderRadius: BorderRadius.circular(30)),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(Icons.search),
+                      Text('笔记本',
+                          style: TextStyle(fontSize: ScreenUtil().setSp(28)))
+                    ],
+                  ),
+                ),
+                onTap: () {
+                  Navigator.pushNamed(context, '/search');
+                },
+              ),
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.message, size: 28, color: Colors.black87),
+                  onPressed: null,
+                )
+              ],
+            )
+          : AppBar(
+              title: Text('用户中心'),
+            ),
       //保持部分页面的状态：
       body: PageView(
         controller: this._pageController,
         children: this._pageList,
+        onPageChanged: (index) {
+          setState(() {
+            this._currentIndex = index;
+          });
+        },
       ),
       // body: this._pageList[this._currentIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -58,6 +93,7 @@ class _TabsState extends State<Tabs> {
           });
         },
         type: BottomNavigationBarType.fixed,
+        fixedColor: Colors.red,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),

@@ -127,7 +127,7 @@ class _HomePageState extends State<HomePage>
     if (this._hotProductList.length > 0) {
       return Container(
         height: ScreenUtil().setHeight(240),
-        padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
+        padding: EdgeInsets.all(ScreenUtil().setWidth(20)),
         // width: double.infinity, //寬度自適應
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
