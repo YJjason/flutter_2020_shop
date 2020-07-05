@@ -37,20 +37,47 @@ class _ProductListPageState extends State<ProductListPage> {
   bool flag = true;
 // 是否有数据
   bool _hasMore = true;
+
+  // 一级导航数据
+  /*
+  价格升序：sort=price_1
+  价格降序：sort=price_-1
+  销量升序：sort=salecount_1
+  销量降序：sort=salecount_-1
+   */
+  List _subHeaderList = [
+    {"id": 1, "title": "综合", "fileds": 'all', "sort": -1},
+    {"id": 2, "title": "销量", "fileds": 'salecount', "sort": -1},
+    {"id": 3, "title": "价格", "fileds": 'price', "sort": -1},
+    {"id": 4, "title": "筛选"},
+  ];
+  int _selectHeaderId = 1;
+
   @override
   void initState() {
     super.initState();
     // 获取商品数据
     _getProductListData();
+    //监听滚动条滚动事件：
+    _scrollController.addListener(() {
+      // _scrollController.position.pixels //获取滚动条滚动高度
+      // _scrollController.position.maxScrollExtent //获取页面滚动高度：
+      if (_scrollController.position.pixels >
+          _scrollController.position.maxScrollExtent - 20) {
+        if (this.flag && this._hasMore) {
+          _getProductListData();
+        }
+      }
+    });
   }
 
+  //获取商品列表的数据：
   _getProductListData() async {
     setState(() {
       this.flag = false;
     });
     var api =
         '${Config.domain}api/plist?cid=${widget.arguments["cid"]}&page=${_page}&sort=${this._sort}&pageSize=${_pageSize}';
-    print('api------${api}');
     var result = await Dio().get(api);
     var productList = ProductModel.fromJson(result.data);
     if (productList.result.length < this._pageSize) {
@@ -99,67 +126,34 @@ class _ProductListPageState extends State<ProductListPage> {
           ),
         ),
         child: Row(
-          children: <Widget>[
-            Expanded(
+          children: this._subHeaderList.map((value) {
+            return Expanded(
               flex: 1,
               child: InkWell(
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(0, ScreenUtil().setHeight(20), 0,
                       ScreenUtil().setHeight(20)),
-                  child: Text(
-                    '综合',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.red),
-                  ),
-                ),
-                onTap: () {},
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: InkWell(
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(0, ScreenUtil().setHeight(20), 0,
-                      ScreenUtil().setHeight(20)),
-                  child: Text(
-                    '销量',
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                onTap: () {},
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: InkWell(
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(0, ScreenUtil().setHeight(20), 0,
-                      ScreenUtil().setHeight(20)),
-                  child: Text(
-                    '价格',
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                onTap: () {},
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: InkWell(
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(0, ScreenUtil().setHeight(20), 0,
-                      ScreenUtil().setHeight(20)),
-                  child: Text(
-                    '筛选',
-                    textAlign: TextAlign.center,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        "${value['title']}",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: (this._selectHeaderId == value['id'])
+                                ? Colors.red
+                                : Colors.black),
+                      ),
+                      _showIcon(value['id']),
+                    ],
                   ),
                 ),
                 onTap: () {
-                  _scaffoldKey.currentState.openEndDrawer();
+                  _subHeaderChange(value['id']);
                 },
               ),
-            ),
-          ],
+            );
+          }).toList(),
         ),
       ),
     );
@@ -221,7 +215,7 @@ class _ProductListPageState extends State<ProductListPage> {
                                   height: ScreenUtil().setHeight(36),
                                   margin: EdgeInsets.only(right: 10),
                                   padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                  //注意：如果Container里面加上decoration属性，这个时候color属性必须放到BoxDecoration
+                                  //��意：如果Container里面加上decoration属性，这个时候color属性必须放到BoxDecoration
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
                                     // color:Color.fromRGBO(230, 230, 230, 0.9)
@@ -265,103 +259,54 @@ class _ProductListPageState extends State<ProductListPage> {
     }
   }
 
-  /*  Widget _productListWidget() {
-    if (this._productList.length > 0) {
-      return Container(
-        padding: EdgeInsets.all(10),
-        margin: EdgeInsets.only(top: ScreenUtil().setHeight(80)),
-        child: ListView.builder(
-          itemCount: this._productList.length,
-          controller: _scrollController,
-          itemBuilder: (context, index) {
-            // 图片处理
-            String pic = this._productList[index].pic;
-            pic = Config.domain + pic.replaceAll('\\', '/');
-            //获得每一个元素：
-            return Column(
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Container(
-                      width: ScreenUtil().setWidth(180),
-                      height: ScreenUtil().setHeight(180),
-                      child: Image.network(
-                        // "https://www.itying.com/images/flutter/list2.jpg",
-                        '${pic}',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        height: ScreenUtil().setHeight(180),
-                        margin: EdgeInsets.only(left: 10),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              '${this._productList[index].title}',
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Container(
-                                  height: ScreenUtil().setHeight(36),
-                                  margin: EdgeInsets.only(right: 10),
-                                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                  //注意：如果Container里面加上decoration属性，这个时候color属性必须放到BoxDecoration
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Text('4G'),
-                                ),
-                                Container(
-                                  height: ScreenUtil().setHeight(36),
-                                  margin: EdgeInsets.only(right: 10),
-                                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                  //注意：如果Container里面加上decoration属性，这个时候color���性必须放到BoxDecoration
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    // color:Color.fromRGBO(230, 230, 230, 0.3)
-                                  ),
-                                  child: Text('16G'),
-                                ),
-                              ],
-                            ),
-                            Text(
-                              '￥${this._productList[index].price}',
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                Divider(
-                  height: 20,
-                ),
-                this._showMore(index),
-              ],
-            );
-          },
-        ),
-      );
-    } else {
-      return LoadingWidget();
+  //导航改变的时候触发：
+  _subHeaderChange(id) {
+    print('id-------${id}');
+    if (id == 4) {
+      _scaffoldKey.currentState.openEndDrawer();
     }
+    setState(() {
+      this._selectHeaderId = id;
+      this._sort =
+          "${this._subHeaderList[id - 1]['fileds']}_${this._subHeaderList[id - 1]['sort']}";
+      // 重置分页
+      this._page = 1;
+      //重置数据
+      this._productList = [];
+      // 重置默认排序方式
+      this._subHeaderList[id - 1]['sort'] =
+          this._subHeaderList[id - 1]['sort'] * -1;
+
+      //重置_hasMore
+      this._hasMore = true;
+      //重新请求数据：
+      this._getProductListData();
+    });
   }
- */
+
+  //显示Header icon
+  Widget _showIcon(id) {
+    if (id == 2 || id == 3) {
+      if (this._subHeaderList[id - 1]['sort'] == 1) {
+        return Icon(Icons.arrow_drop_down);
+      } else {
+        return Icon(Icons.arrow_drop_up);
+      }
+    }
+    return Text('');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('商品列表'),
+        actions: <Widget>[Text('232')],
+      ),
+      endDrawer: Drawer(
+        child: Container(
+          child: Text('实现筛选功能'),
+        ),
       ),
       body: Stack(
         children: <Widget>[
