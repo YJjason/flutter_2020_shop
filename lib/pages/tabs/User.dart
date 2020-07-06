@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class UserPage extends StatefulWidget {
+  Map arguments;
   UserPage({Key key}) : super(key: key);
 
   @override

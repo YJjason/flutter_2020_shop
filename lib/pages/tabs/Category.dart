@@ -47,6 +47,9 @@ class _CategoryPageState extends State<CategoryPage>
     setState(() {
       this._rightCateList = rightCateList.result;
     });
+    this._rightCateList.map((value) {
+      print('211111----${value.title}');
+    });
   }
   // 左侧组件
 

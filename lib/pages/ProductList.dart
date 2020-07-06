@@ -37,7 +37,8 @@ class _ProductListPageState extends State<ProductListPage> {
   bool flag = true;
 // 是否有数据
   bool _hasMore = true;
-
+// 是否有搜索的数据：
+  bool _hasData = true;
   // 一级导航数据
   /*
   价格升序：sort=price_1
@@ -51,11 +52,27 @@ class _ProductListPageState extends State<ProductListPage> {
     {"id": 3, "title": "价格", "fileds": 'price', "sort": -1},
     {"id": 4, "title": "筛选"},
   ];
+  //当前选中 导航id
   int _selectHeaderId = 1;
+
+  //配置search搜索框的值：
+  var _initKeywordsController = new TextEditingController();
+  //cid
+  var _cid;
+  var _keywords;
 
   @override
   void initState() {
     super.initState();
+    this._cid = widget.arguments["cid"];
+    this._keywords = widget.arguments["keywords"];
+    //给search框框赋值：
+    this._initKeywordsController.text = this._keywords;
+
+    widget.arguments['keywords'] == null
+        ? this._initKeywordsController.text = ''
+        : this._initKeywordsController.text = widget.arguments['keywords'];
+
     // 获取商品数据
     _getProductListData();
     //监听滚动条滚动事件：
@@ -76,8 +93,15 @@ class _ProductListPageState extends State<ProductListPage> {
     setState(() {
       this.flag = false;
     });
-    var api =
-        '${Config.domain}api/plist?cid=${widget.arguments["cid"]}&page=${_page}&sort=${this._sort}&pageSize=${_pageSize}';
+    var api = '';
+    if (this._keywords == null) {
+      api =
+          '${Config.domain}api/plist?cid=${widget.arguments["cid"]}&page=${_page}&sort=${this._sort}&pageSize=${_pageSize}';
+    } else {
+      api =
+          '${Config.domain}api/plist?search=${this._keywords}&page=${_page}&sort=${this._sort}&pageSize=${_pageSize}';
+    }
+
     var result = await Dio().get(api);
     var productList = ProductModel.fromJson(result.data);
     if (productList.result.length < this._pageSize) {
@@ -91,6 +115,16 @@ class _ProductListPageState extends State<ProductListPage> {
         this._productList.addAll(productList.result);
         this._page++;
         this.flag = true;
+      });
+    }
+    //判断是否有搜索的数据：
+    if (productList.result.length == 0) {
+      setState(() {
+        this._hasData = false;
+      });
+    } else {
+      setState(() {
+        this._hasData = true;
       });
     }
   }
@@ -261,7 +295,6 @@ class _ProductListPageState extends State<ProductListPage> {
 
   //导航改变的时候触发：
   _subHeaderChange(id) {
-    print('id-------${id}');
     if (id == 4) {
       _scaffoldKey.currentState.openEndDrawer();
     }
@@ -308,12 +341,16 @@ class _ProductListPageState extends State<ProductListPage> {
           child: Text('实现筛选功能'),
         ),
       ),
-      body: Stack(
-        children: <Widget>[
-          _productListWidget(),
-          _subHeaderWidget(),
-        ],
-      ),
+      body: _hasData
+          ? Stack(
+              children: <Widget>[
+                _productListWidget(),
+                _subHeaderWidget(),
+              ],
+            )
+          : Center(
+              child: Text('没有你要浏览的数据'),
+            ),
     );
   }
 }

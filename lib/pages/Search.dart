@@ -9,6 +9,7 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  var _keywords;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,33 +18,32 @@ class _SearchPageState extends State<SearchPage> {
           child: TextField(
             autofocus: true,
             decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30),
-                borderSide: BorderSide.none,
-              ),
-            ),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: BorderSide.none)),
+            onChanged: (value) {
+              this._keywords = value;
+            },
           ),
           height: ScreenUtil().setHeight(68),
           decoration: BoxDecoration(
-            color: Color.fromRGBO(233, 233, 233, 0.8),
-            borderRadius: BorderRadius.circular(30),
-          ),
+              color: Color.fromRGBO(233, 233, 233, 0.8),
+              borderRadius: BorderRadius.circular(30)),
         ),
         actions: <Widget>[
           InkWell(
             child: Container(
+              height: ScreenUtil().setHeight(68),
               width: ScreenUtil().setWidth(80),
-              height: ScreenUtil().setHeight(60),
               child: Row(
-                children: <Widget>[
-                  Text(
-                    '搜索',
-                  ),
-                ],
+                children: <Widget>[Text('搜索')],
               ),
             ),
-            onTap: () {},
-          ),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/productList',
+                  arguments: {"keywords": this._keywords});
+            },
+          )
         ],
       ),
       body: Container(
@@ -51,10 +51,7 @@ class _SearchPageState extends State<SearchPage> {
         child: ListView(
           children: <Widget>[
             Container(
-              child: Text(
-                '热搜',
-                style: Theme.of(context).textTheme.title,
-              ),
+              child: Text('热搜', style: Theme.of(context).textTheme.title),
             ),
             Divider(),
             Wrap(
@@ -63,48 +60,47 @@ class _SearchPageState extends State<SearchPage> {
                   padding: EdgeInsets.all(10),
                   margin: EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: Color.fromRGBO(233, 233, 233, 0.9),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+                      color: Color.fromRGBO(233, 233, 233, 0.9),
+                      borderRadius: BorderRadius.circular(10)),
                   child: Text('女装'),
                 ),
                 Container(
                   padding: EdgeInsets.all(10),
                   margin: EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: Color.fromRGBO(233, 233, 233, 0.9),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+                      color: Color.fromRGBO(233, 233, 233, 0.9),
+                      borderRadius: BorderRadius.circular(10)),
                   child: Text('女装'),
                 ),
                 Container(
                   padding: EdgeInsets.all(10),
                   margin: EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: Color.fromRGBO(233, 233, 233, 0.9),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+                      color: Color.fromRGBO(233, 233, 233, 0.9),
+                      borderRadius: BorderRadius.circular(10)),
                   child: Text('女装'),
                 ),
                 Container(
                   padding: EdgeInsets.all(10),
                   margin: EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: Color.fromRGBO(233, 233, 233, 0.9),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+                      color: Color.fromRGBO(233, 233, 233, 0.9),
+                      borderRadius: BorderRadius.circular(10)),
                   child: Text('女装'),
                 ),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  margin: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      color: Color.fromRGBO(233, 233, 233, 0.9),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Text('女装'),
+                )
               ],
             ),
-            SizedBox(
-              height: 10,
-            ),
+            SizedBox(height: 10),
             Container(
-              child: Text(
-                '记录',
-                style: Theme.of(context).textTheme.title,
-              ),
+              child: Text('历史记录', style: Theme.of(context).textTheme.title),
             ),
             Divider(),
             Column(
@@ -127,29 +123,20 @@ class _SearchPageState extends State<SearchPage> {
                 Divider(),
               ],
             ),
-            SizedBox(
-              height: 10,
-            ),
+            SizedBox(height: 100),
             InkWell(
               onTap: () {},
               child: Container(
                 width: ScreenUtil().setWidth(400),
                 height: ScreenUtil().setHeight(64),
                 decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 1,
-                    color: Colors.black54,
-                  ),
-                ),
+                    border: Border.all(color: Colors.black54, width: 1)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(Icons.delete),
-                    Text('清空历史记录'),
-                  ],
+                  children: <Widget>[Icon(Icons.delete), Text('清空历史记录')],
                 ),
               ),
-            ),
+            )
           ],
         ),
       ),

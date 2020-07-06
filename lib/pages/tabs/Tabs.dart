@@ -22,6 +22,7 @@ class _TabsState extends State<Tabs> {
   ];
 
   PageController _pageController;
+
   @override
   void initState() {
     // TODO: implement initState

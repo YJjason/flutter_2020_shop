@@ -79,23 +79,23 @@ class _HomePageState extends State<HomePage>
         child: AspectRatio(
           aspectRatio: 2 / 1,
           child: Swiper(
-            itemCount: this._focusData.length,
-            autoplay: true,
-            pagination: new SwiperPagination(), //默认分页器
-            control: new SwiperControl(), //默认分页按钮
             itemBuilder: (BuildContext context, int index) {
               String pic = this._focusData[index].pic;
               pic = Config.domain + pic.replaceAll('\\', '/');
               return new Image.network(
-                '${pic}',
+                "${pic}",
                 fit: BoxFit.fill,
               );
             },
+            itemCount: this._focusData.length,
+            pagination: new SwiperPagination(),
+            control: new SwiperControl(),
+            autoplay: true,
           ),
         ),
       );
     } else {
-      return Text('加载中...');
+      return Text('加载中~');
     }
   }
 
@@ -131,7 +131,7 @@ class _HomePageState extends State<HomePage>
         // width: double.infinity, //寬度自適應
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) {
+          itemBuilder: (contxt, index) {
             String sPic = this._hotProductList[index].sPic;
             sPic = Config.domain + sPic.replaceAll('\\', '/');
             return Column(
@@ -140,16 +140,13 @@ class _HomePageState extends State<HomePage>
                   height: ScreenUtil().setHeight(140),
                   width: ScreenUtil().setWidth(140),
                   margin: EdgeInsets.only(right: ScreenUtil().setWidth(21)),
-                  child: Image.network(
-                    '${sPic}',
-                    fit: BoxFit.cover,
-                  ),
+                  child: Image.network("${sPic}", fit: BoxFit.cover),
                 ),
                 Container(
                   padding: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
                   height: ScreenUtil().setHeight(44),
                   child: Text(
-                    '${this._hotProductList[index].price}',
+                    "￥${this._hotProductList[index].price}",
                     style: TextStyle(color: Colors.red),
                   ),
                 )
@@ -170,71 +167,65 @@ class _HomePageState extends State<HomePage>
     return Container(
       padding: EdgeInsets.all(10),
       child: Wrap(
-          runSpacing: 10,
-          spacing: 10,
-          children: this._bestProductList.map((value) {
-            var sPic = value.sPic;
-            sPic = Config.domain + sPic.replaceAll('\\', '/');
-            return Container(
-              padding: EdgeInsets.all(ScreenUtil().setWidth(20)),
-              width: itemWidth,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  width: 1,
-                  color: Colors.black12,
+        runSpacing: 10,
+        spacing: 10,
+        children: this._bestProductList.map((value) {
+          //图片：
+          var sPic = value.sPic;
+          sPic = Config.domain + sPic.replaceAll('\\', '/');
+
+          return Container(
+            padding: EdgeInsets.all(ScreenUtil().setWidth(20)),
+            width: itemWidth,
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.black12, width: 1)),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  width: double.infinity,
+                  child: AspectRatio(
+                    aspectRatio: 1 / 1,
+                    child: Image.network("${sPic}", fit: BoxFit.cover),
+                  ),
                 ),
-              ),
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    width: double.infinity,
-                    child: AspectRatio(
-                      aspectRatio: 1 / 1,
-                      child: Image.network(
-                        // "https://www.itying.com/images/flutter/list1.jpg",
-                        '${sPic}',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                Padding(
+                  padding: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
+                  child: Text(
+                    "${value.title}",
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(color: Colors.black54),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
-                    child: Text(
-                      '${value.title}',
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(color: Colors.black54),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: ScreenUtil().setHeight(20)),
-                    child: Stack(
-                      children: <Widget>[
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            '${value.price}',
-                            style: TextStyle(color: Colors.red, fontSize: 16),
-                          ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: ScreenUtil().setHeight(20)),
+                  child: Stack(
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "${value.price}",
+                          style: TextStyle(color: Colors.red, fontSize: 16),
                         ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                            '¥${value.oldPrice}',
-                            style: TextStyle(
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          "￥${value.oldPrice}",
+                          style: TextStyle(
                               color: Colors.black54,
                               fontSize: 16,
-                              decoration: TextDecoration.lineThrough,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
+                              decoration: TextDecoration.lineThrough),
+                        ),
+                      )
+                    ],
                   ),
-                ],
-              ),
-            );
-          }).toList()),
+                )
+              ],
+            ),
+          );
+        }).toList(),
+      ),
     );
   }
 
