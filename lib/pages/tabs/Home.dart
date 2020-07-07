@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_2020/services/SearchServices.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
@@ -10,6 +11,9 @@ import 'package:dio/dio.dart';
 import './../../model/FocusModel.dart';
 // 热门推荐模型：
 import './../../model/ProductModel.dart';
+
+// 本地缓存
+import './../../services/SearchServices.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -35,6 +39,9 @@ class _HomePageState extends State<HomePage>
     _getFocusData();
     _getHotProductData();
     _getBestProductList();
+    // 本地缓存
+    SearchServices.setHistoryData('2333');
+    var temp = SearchServices.getHistoryList();
   }
 
 // 获取轮播图数据

@@ -42,4 +42,6 @@ samples, guidance on mobile development, and a full API reference.
  搜索页面布局
 ## chapter_12
   跳转到搜索页面实现搜索功能 以及搜索筛选
+## chapter_13
+  保存历史搜索记录 删除历史记录 清空历史记录 长按删除
 

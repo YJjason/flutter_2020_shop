@@ -24,7 +24,7 @@ class _MyAppState extends State<MyApp> {
       // 关闭右上角debug 模式
       debugShowCheckedModeBanner: false,
       // home: Tabs(),
-      initialRoute: '/search', // 使用路由对应页面
+      initialRoute: '/', // 使用路由对应页面
       onGenerateRoute: onGenerateRoute,
       // 修改主题
       theme: ThemeData(primaryColor: Colors.pink[100]),
