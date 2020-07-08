@@ -181,54 +181,63 @@ class _HomePageState extends State<HomePage>
           var sPic = value.sPic;
           sPic = Config.domain + sPic.replaceAll('\\', '/');
 
-          return Container(
-            padding: EdgeInsets.all(ScreenUtil().setWidth(20)),
-            width: itemWidth,
-            decoration: BoxDecoration(
-                border: Border.all(color: Colors.black12, width: 1)),
-            child: Column(
-              children: <Widget>[
-                Container(
-                  width: double.infinity,
-                  child: AspectRatio(
-                    aspectRatio: 1 / 1,
-                    child: Image.network("${sPic}", fit: BoxFit.cover),
+          return InkWell(
+            onTap: () {
+              print("productContent");
+              /*  Navigator.pushNamed(context, '/productContent',
+                  arguments: {"id": value.sId}); */
+              Navigator.pushNamed(context, '/productContent',
+                  arguments: {"id": value.sId});
+            },
+            child: Container(
+              padding: EdgeInsets.all(ScreenUtil().setWidth(20)),
+              width: itemWidth,
+              decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black12, width: 1)),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    width: double.infinity,
+                    child: AspectRatio(
+                      aspectRatio: 1 / 1,
+                      child: Image.network("${sPic}", fit: BoxFit.cover),
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
-                  child: Text(
-                    "${value.title}",
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: Colors.black54),
+                  Padding(
+                    padding: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
+                    child: Text(
+                      "${value.title}",
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(color: Colors.black54),
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: ScreenUtil().setHeight(20)),
-                  child: Stack(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "${value.price}",
-                          style: TextStyle(color: Colors.red, fontSize: 16),
+                  Padding(
+                    padding: EdgeInsets.only(top: ScreenUtil().setHeight(20)),
+                    child: Stack(
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "${value.price}",
+                            style: TextStyle(color: Colors.red, fontSize: 16),
+                          ),
                         ),
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          "￥${value.oldPrice}",
-                          style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: 16,
-                              decoration: TextDecoration.lineThrough),
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              ],
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            "￥${value.oldPrice}",
+                            style: TextStyle(
+                                color: Colors.black54,
+                                fontSize: 16,
+                                decoration: TextDecoration.lineThrough),
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           );
         }).toList(),

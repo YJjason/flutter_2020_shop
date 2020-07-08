@@ -22,6 +22,7 @@ class _SearchPageState extends State<SearchPage> {
     // 获取当前本地缓存
 
     _historyListWidget();
+    _getHistoryData();
   }
 
   _getHistoryData() async {
@@ -33,7 +34,7 @@ class _SearchPageState extends State<SearchPage> {
 
 // 历史 widget
   Widget _historyListWidget() {
-    if (_historyListData.length > 0) {
+    if (this._historyListData.length > 0) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -173,46 +174,8 @@ class _SearchPageState extends State<SearchPage> {
               ],
             ),
             SizedBox(height: 10),
-            Container(
-              child: Text('历史记录', style: Theme.of(context).textTheme.title),
-            ),
-            Divider(),
-            Column(
-              children: <Widget>[
-                ListTile(
-                  title: Text('女装'),
-                ),
-                Divider(),
-                ListTile(
-                  title: Text('女装'),
-                ),
-                Divider(),
-                ListTile(
-                  title: Text('女装'),
-                ),
-                Divider(),
-                ListTile(
-                  title: Text('女装'),
-                ),
-                Divider(),
-              ],
-            ),
-            SizedBox(height: 100),
-            // 历史记录
-            this._historyListWidget(),
-            /*  InkWell(
-              onTap: () {},
-              child: Container(
-                width: ScreenUtil().setWidth(400),
-                height: ScreenUtil().setHeight(64),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black54, width: 1)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[Icon(Icons.delete), Text('清空历史记录')],
-                ),
-              ),
-            ) */
+            //历史记录：
+            _historyListWidget()
           ],
         ),
       ),

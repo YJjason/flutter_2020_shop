@@ -3,6 +3,7 @@ import './../pages/tabs/Tabs.dart';
 import './../pages/Search.dart';
 
 import './../pages/ProductList.dart';
+import './../pages/ProductContent.dart';
 
 //配置路由的地方：
 final routes = {
@@ -10,6 +11,9 @@ final routes = {
   '/search': (context) => SearchPage(),
   '/productList': (context, {arguments}) =>
       ProductListPage(arguments: arguments),
+  // 商品中心
+  '/productContent': (context, {arguments}) =>
+      ProductContentPage(arguments: arguments),
 };
 
 // 路由传参 固定写法

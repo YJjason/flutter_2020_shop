@@ -18,6 +18,7 @@ class SearchServices {
      *  */
     try {
       List searchListData = json.decode(await Storage.getString('searchList'));
+      // print(searchListData);
       var hasData = searchListData.any((v) {
         return v == keywords;
       });
