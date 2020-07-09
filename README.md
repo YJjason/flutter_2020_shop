@@ -46,3 +46,5 @@ samples, guidance on mobile development, and a full API reference.
   保存历史搜索记录 删除历史记录 清空历史记录 长按删除
 ## chapter_14
  商品详情顶部tab切换 顶部下拉菜单 底部浮动导航
+ ## chapter_15
+商品详情 底部浮动导航布局 商品页面布局
