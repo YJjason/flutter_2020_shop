@@ -40,8 +40,7 @@ class _HomePageState extends State<HomePage>
     _getHotProductData();
     _getBestProductList();
     // 本地缓存
-    SearchServices.setHistoryData('2333');
-    var temp = SearchServices.getHistoryList();
+    // SearchServices.setHistoryData('233');
   }
 
 // 获取轮播图数据

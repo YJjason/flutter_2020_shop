@@ -79,6 +79,7 @@ class _ProductContentPageState extends State<ProductContentPage> {
             Positioned(
               width: ScreenUtil().setWidth(750),
               height: ScreenUtil().setHeight(80),
+              bottom: 0,
               child: Container(
                 color: Colors.red,
                 child: Text('底部'),

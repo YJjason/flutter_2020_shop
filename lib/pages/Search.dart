@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_screenutil/screenutil.dart';
 
 // 搜索 本地缓存
 
@@ -20,13 +20,13 @@ class _SearchPageState extends State<SearchPage> {
     // TODO: implement initState
     super.initState();
     // 获取当前本地缓存
-
     _historyListWidget();
     _getHistoryData();
   }
 
   _getHistoryData() async {
-    var _historyListData = SearchServices.getHistoryList();
+    // Future 对象 使用 awsit 或者 .then 接收
+    var _historyListData = await SearchServices.getHistoryList();
     setState(() {
       this._historyListData = _historyListData;
     });
