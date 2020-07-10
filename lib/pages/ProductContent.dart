@@ -4,6 +4,9 @@ import './ProductContent/ProductContentFirst.dart';
 import './ProductContent/ProductContentSecond.dart';
 import './ProductContent/ProductContentThird.dart';
 
+// 按钮组件
+import './../widget/JdButton.dart';
+
 class ProductContentPage extends StatefulWidget {
   final Map arguments;
   ProductContentPage({Key key, this.arguments}) : super(key: key);
@@ -78,11 +81,58 @@ class _ProductContentPageState extends State<ProductContentPage> {
             ),
             Positioned(
               width: ScreenUtil().setWidth(750),
-              height: ScreenUtil().setHeight(80),
-              bottom: 0,
+              height: ScreenUtil().setHeight(110),
+              bottom: 5,
               child: Container(
-                color: Colors.red,
-                child: Text('底部'),
+                decoration: BoxDecoration(
+                  border: Border(
+                    top: BorderSide(
+                      width: 1,
+                      color: Colors.black54,
+                    ),
+                  ),
+                  color: Colors.white,
+                ),
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.only(
+                        top: ScreenUtil().setHeight(5),
+                      ),
+                      width: 100,
+                      height: ScreenUtil().setHeight(80),
+                      child: Column(
+                        children: <Widget>[
+                          Icon(
+                            Icons.shopping_cart,
+                            size: 20,
+                          ),
+                          Text('购物车')
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: JdButton(
+                        color: Color.fromRGBO(253, 1, 0, 0.9),
+                        text: '加入购物车',
+                        cb: () {
+                          print('加入购物车');
+                        },
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: JdButton(
+                        color: Color.fromRGBO(253, 1, 0, 0.9),
+                        text: '立即购物',
+                        cb: () {
+                          print('立即购物');
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
