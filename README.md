@@ -48,3 +48,5 @@ samples, guidance on mobile development, and a full API reference.
  商品详情顶部tab切换 顶部下拉菜单 底部浮动导航
  ## chapter_15
 商品详情 底部浮动导航布局 商品页面布局
+ ## chapter_16
+ 商品详情 请求接口渲染数据 商品属性数据渲染
