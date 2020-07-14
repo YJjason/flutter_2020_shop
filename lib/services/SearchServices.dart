@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
+
 import 'Storage.dart';
 
 class SearchServices {
@@ -41,7 +43,18 @@ class SearchServices {
     }
   }
 
-  static removeHistoryList() async {
-    await Storage.remove('searchList');
+  static clearHistoryList() async {
+    try {
+      List searchListData = json.decode(await Storage.getString('searchList'));
+      return searchListData;
+    } catch (e) {
+      return [];
+    }
+  }
+
+  static removeHistoryList(keywords) async {
+    List searchListData = json.decode(await Storage.getString('searchList'));
+    searchListData.remove(keywords);
+    await Storage.setString('searchList', json.encode(searchListData));
   }
 }
