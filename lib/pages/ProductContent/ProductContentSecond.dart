@@ -2,7 +2,7 @@
  * @Author: Jason_Ma
  * @Date: 2020-09-16 13:44:29
  * @LastEditors: Jason_Ma
- * @LastEditTime: 2020-09-23 16:37:04
+ * @LastEditTime: 2020-09-23 16:51:45
  * @FilePath: /flutter_2020_shop/lib/pages/ProductContent/ProductContentSecond.dart
  */
 import 'package:flutter/material.dart';
@@ -46,17 +46,17 @@ class _ProductContentSecondState extends State<ProductContentSecond> {
               )),
               onWebViewCreated: (InAppWebViewController controller) {
                 _webViewController = controller;
-                print("onWebViewCreated");
+                // print("onWebViewCreated");
               },
               onLoadStart: (InAppWebViewController controller, String url) {
-                print("onLoadStart $url");
+                // print("onLoadStart $url");
                 setState(() {
                   this.url = url;
                 });
               },
               onLoadStop:
                   (InAppWebViewController controller, String url) async {
-                print("onLoadStop $url");
+                // print("onLoadStop $url");
                 setState(() {
                   this.url = url;
                 });

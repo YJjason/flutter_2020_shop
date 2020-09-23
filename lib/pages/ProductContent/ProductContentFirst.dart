@@ -61,7 +61,6 @@ class _ProductContentFirstState extends State<ProductContentFirst>
     setState(() {
       this._selectedValue = tempArr.join(',');
     });
-    print('_selectedValue----${this._selectedValue}');
   }
 
   // 改变属性值
@@ -172,7 +171,7 @@ class _ProductContentFirstState extends State<ProductContentFirst>
                               color: Color.fromRGBO(253, 1, 0, 0.9),
                               text: "加入购物车",
                               cb: () {
-                                print('加入购物车');
+                                // print('加入购物车');
                               },
                             ),
                           ),
