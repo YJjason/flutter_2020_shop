@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import './ProductContent/ProductContentFirst.dart';
+import 'ProductContent/ProductContentFirst.dart';
 import './ProductContent/ProductContentSecond.dart';
 import './ProductContent/ProductContentThird.dart';
 import './../widget/LoadingWidget.dart';
@@ -30,6 +30,7 @@ class _ProductContentPageState extends State<ProductContentPage> {
 
   _getContentData() async {
     var api = "${Config.domain}api/pcontent?id=${widget.arguments['id']}";
+    print('api ' + api);
     var result = await Dio().get(api);
     var productContent = ProductContentModel.fromJson(result.data);
     setState(() {
@@ -97,7 +98,7 @@ class _ProductContentPageState extends State<ProductContentPage> {
                   TabBarView(
                     children: <Widget>[
                       ProductContentFirst(this._productContentList),
-                      ProductContentSecond(),
+                      ProductContentSecond(this._productContentList),
                       ProductContentThird(),
                     ],
                   ),

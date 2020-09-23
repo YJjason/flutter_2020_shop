@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_2020/config/config.dart';
-import 'package:flutter_2020/widget/JdButton.dart';
+import '../../config/config.dart';
+import '../../widget/JdButton.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import "./../../model/ProductContentModel.dart";
+import '../../model/ProductContentModel.dart';
 // 底部弹出商品属性
 
 class ProductContentFirst extends StatefulWidget {
