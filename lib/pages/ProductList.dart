@@ -1,5 +1,6 @@
 // 商品列表
 import 'package:flutter/material.dart';
+import 'package:flutter_2020/services/SearchServices.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import './../config/config.dart';
 import 'package:dio/dio.dart';
@@ -332,9 +333,45 @@ class _ProductListPageState extends State<ProductListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('商品列表'),
-        actions: <Widget>[Text('232')],
+        title: Container(
+          child: TextField(
+            controller: this._initKeywordsController,
+            autofocus: true,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide.none,
+              ),
+            ),
+            onChanged: (value) {
+              setState(() {
+                this._keywords = value;
+              });
+            },
+          ),
+          height: ScreenUtil().setHeight(68),
+          decoration: BoxDecoration(
+            color: Color.fromRGBO(233, 233, 233, 0.8),
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        actions: <Widget>[
+          InkWell(
+            child: Container(
+              height: ScreenUtil().setHeight(68),
+              width: ScreenUtil().setWidth(80),
+              child: Row(
+                children: <Widget>[Text("搜索")],
+              ),
+            ),
+            onTap: () {
+              SearchServices.setHistoryData(this._keywords);
+              this._subHeaderChange(1);
+            },
+          ),
+        ],
       ),
       endDrawer: Drawer(
         child: Container(

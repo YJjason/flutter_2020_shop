@@ -104,33 +104,24 @@ class _ProductContentPageState extends State<ProductContentPage> {
                   ),
                   Positioned(
                     width: ScreenUtil().setWidth(750),
-                    height: ScreenUtil().setHeight(110),
-                    bottom: 5,
+                    height: ScreenUtil().setHeight(88),
+                    bottom: 0,
                     child: Container(
                       decoration: BoxDecoration(
-                        border: Border(
-                          top: BorderSide(
-                            width: 1,
-                            color: Colors.black54,
-                          ),
-                        ),
-                        color: Colors.white,
-                      ),
+                          border: Border(
+                              top: BorderSide(color: Colors.black26, width: 1)),
+                          color: Colors.white),
                       child: Row(
                         children: <Widget>[
                           Container(
                             padding: EdgeInsets.only(
-                              top: ScreenUtil().setHeight(5),
-                            ),
+                                top: ScreenUtil().setHeight(10)),
                             width: 100,
-                            height: ScreenUtil().setHeight(80),
+                            height: ScreenUtil().setHeight(88),
                             child: Column(
                               children: <Widget>[
-                                Icon(
-                                  Icons.shopping_cart,
-                                  size: 20,
-                                ),
-                                Text('购物车')
+                                Icon(Icons.shopping_cart),
+                                Text("购物车")
                               ],
                             ),
                           ),
@@ -138,7 +129,7 @@ class _ProductContentPageState extends State<ProductContentPage> {
                             flex: 1,
                             child: JdButton(
                               color: Color.fromRGBO(253, 1, 0, 0.9),
-                              text: '加入购物车',
+                              text: "加入购物车",
                               cb: () {
                                 print('加入购物车');
                               },
@@ -147,13 +138,13 @@ class _ProductContentPageState extends State<ProductContentPage> {
                           Expanded(
                             flex: 1,
                             child: JdButton(
-                              color: Color.fromRGBO(253, 1, 0, 0.9),
-                              text: '立即购物',
+                              color: Color.fromRGBO(255, 165, 0, 0.9),
+                              text: "立即购买",
                               cb: () {
-                                print('立即购物');
+                                print('立即购买');
                               },
                             ),
-                          ),
+                          )
                         ],
                       ),
                     ),

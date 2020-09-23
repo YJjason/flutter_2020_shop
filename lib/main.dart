@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_2020/routes/router.dart';
 
 import 'pages/tabs/Tabs.dart';
@@ -7,6 +8,7 @@ import 'routes/router.dart';
 import './pages/Search.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 

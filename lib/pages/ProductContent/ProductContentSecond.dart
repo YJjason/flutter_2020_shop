@@ -2,7 +2,7 @@
  * @Author: Jason_Ma
  * @Date: 2020-09-16 13:44:29
  * @LastEditors: Jason_Ma
- * @LastEditTime: 2020-09-23 16:07:06
+ * @LastEditTime: 2020-09-23 16:37:04
  * @FilePath: /flutter_2020_shop/lib/pages/ProductContent/ProductContentSecond.dart
  */
 import 'package:flutter/material.dart';

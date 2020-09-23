@@ -32,6 +32,36 @@ class _SearchPageState extends State<SearchPage> {
     });
   }
 
+  searchListData(keywords) async {
+    var result = showDialog(
+      barrierDismissible: false, //表示点击灰色背景的时候是否消失弹出框
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('提示信息!'),
+          content: Text("您确定要删除吗?"),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('取消'),
+              onPressed: () {
+                Text('取消');
+                Navigator.pop(context, 'Cancel');
+              },
+            ),
+            FlatButton(
+              child: Text('确定'),
+              onPressed: () async {
+                await SearchServices.removeHistoryList(keywords);
+                this._getHistoryData();
+                Navigator.pop(context, 'Ok');
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 // 历史 widget
   Widget _historyListWidget() {
     if (this._historyListData.length > 0) {
@@ -60,7 +90,7 @@ class _SearchPageState extends State<SearchPage> {
             children: <Widget>[
               InkWell(
                 onTap: () {
-                  SearchServices.removeHistoryList();
+                  SearchServices.clearHistoryList();
                   this._getHistoryData();
                 },
                 child: Container(
@@ -170,7 +200,7 @@ class _SearchPageState extends State<SearchPage> {
                       color: Color.fromRGBO(233, 233, 233, 0.9),
                       borderRadius: BorderRadius.circular(10)),
                   child: Text('女装'),
-                )
+                ),
               ],
             ),
             SizedBox(height: 10),
