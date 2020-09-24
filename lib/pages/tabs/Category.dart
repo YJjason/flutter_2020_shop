@@ -169,7 +169,7 @@ class _CategoryPageState extends State<CategoryPage>
   @override
   Widget build(BuildContext context) {
     //计算右侧GridView宽高比：
-    // var leftWidth = ScreenAdaper.getScreenWidth() / 4;
+    // var leftWidth = ScreenAdapter.getScreenWidth() / 4;
     var leftWidth = ScreenUtil.screenWidth / 4;
     //右侧宽高=总宽度-左侧宽度-Gridview外层元素左右的Padding值-GridView中间的间距
     var rightItemWidth = (ScreenUtil.screenWidth - leftWidth - 20 - 30) / 3;

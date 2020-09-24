@@ -2,15 +2,17 @@
  * @Author: Jason_Ma
  * @Date: 2020-07-13 10:16:40
  * @LastEditors: Jason_Ma
- * @LastEditTime: 2020-09-24 11:13:01
+ * @LastEditTime: 2020-09-24 16:42:32
  * @FilePath: /flutter_2020_shop/lib/pages/tabs/Cart.dart
  */
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import './../../provider/Cart.dart';
-import './../../provider/Counter.dart';
+import 'package:flutter/rendering.dart';
+import './../../services/ScreenAdapter.dart';
+// import 'package:provider/provider.dart';
+// import './../../provider/Cart.dart';
+// import './../../provider/Counter.dart';
 import './../Cart/CartItem.dart';
-import './../Cart/CartNum.dart';
+// import './../Cart/CartNum.dart';
 
 class CartPage extends StatefulWidget {
   CartPage({Key key}) : super(key: key);
@@ -28,30 +30,72 @@ class _CartPageState extends State<CartPage> {
 
   @override
   Widget build(BuildContext context) {
-    var counterProvider = Provider.of<Counter>(context);
-    var cartProvider = Provider.of<Cart>(context);
+    ScreenAdapter.init(context);
+    // var counterProvider = Provider.of<Counter>(context);
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          counterProvider.incrementCount();
-          //给购物车列表增加数据
-          cartProvider.addData('haha~${counterProvider.count}');
-        },
-        child: Icon(Icons.add),
+      appBar: AppBar(
+        title: Text('购物车'),
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.launch), onPressed: null)
+        ],
       ),
-      body: Column(
+      body: Stack(
         children: <Widget>[
-          Center(
-            child: Text(
-              '统计数量：${counterProvider.count}',
-              style: TextStyle(fontSize: 20),
+          ListView(
+            children: <Widget>[
+              CartItem(),
+              CartItem(),
+              CartItem(),
+            ],
+          ),
+          Positioned(
+            bottom: 0,
+            width: ScreenAdapter.width(750),
+            height: ScreenAdapter.height(78),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(width: 1, color: Colors.black12),
+                ),
+                color: Colors.white,
+              ),
+              width: ScreenAdapter.width(750),
+              height: ScreenAdapter.height(78),
+              child: Stack(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          width: ScreenAdapter.width(60),
+                          child: Checkbox(
+                            value: false,
+                            onChanged: (val) {},
+                            activeColor: Colors.pink,
+                          ),
+                        ),
+                        Text('全选')
+                      ],
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: RaisedButton(
+                      child: Text(
+                        '结算',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      color: Colors.red,
+                      onPressed: () {},
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-          Divider(),
-          //加载购物车列表的子组件
-          CartItem(),
-          Divider(height: 40),
-          CartNum(),
         ],
       ),
     );
