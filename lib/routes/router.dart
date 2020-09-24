@@ -1,3 +1,10 @@
+/*
+ * @Author: Jason_Ma
+ * @Date: 2020-07-13 10:16:40
+ * @LastEditors: Jason_Ma
+ * @LastEditTime: 2020-09-24 17:19:24
+ * @FilePath: /flutter_2020_shop/lib/routes/router.dart
+ */
 import 'package:flutter/material.dart';
 import './../pages/tabs/Tabs.dart';
 import './../pages/Search.dart';

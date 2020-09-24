@@ -6,6 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../model/ProductContentModel.dart';
 // 底部弹出商品属性
+// event_bus
+import './../../services/EventBus.dart';
 
 class ProductContentFirst extends StatefulWidget {
   final List _productContentList;
@@ -22,6 +24,8 @@ class _ProductContentFirstState extends State<ProductContentFirst>
   String _selectedValue;
   bool get wantKeepAlive => true;
 
+  var actionEventBus;
+
   @override
   void initState() {
     this._productContent = widget._productContentList[0];
@@ -29,10 +33,20 @@ class _ProductContentFirstState extends State<ProductContentFirst>
     this._attr = this._productContent.attr;
 
     _initAttr();
-    //[{"cate":"鞋面材料","list":["牛皮 "]},{"cate":"闭合方式","list":["系带"]},{"cate":"颜色","list":["红色","白色","黄色"]}]
+    // 监听所有广播
+    this.actionEventBus = eventBus.on<ProductContentEvent>().listen((event) {
+      print('enent ${event}');
+      this._attrBottomSheet();
+    });
   }
 
-  // 初始化属性
+  //销毁
+  void dispose() {
+    super.dispose();
+    this.actionEventBus.cancel(); //取消事件监听
+  }
+
+  // 初始化属性 格式化数据
   _initAttr() {
     var attr = this._attr;
     for (var i = 0; i < attr.length; i++) {
@@ -171,7 +185,7 @@ class _ProductContentFirstState extends State<ProductContentFirst>
                               color: Color.fromRGBO(253, 1, 0, 0.9),
                               text: "加入购物车",
                               cb: () {
-                                // print('加入购物车');
+                                print('加入购物车');
                               },
                             ),
                           ),

@@ -1,3 +1,10 @@
+<!--
+ * @Author: Jason_Ma
+ * @Date: 2020-07-13 10:16:40
+ * @LastEditors: Jason_Ma
+ * @LastEditTime: 2020-09-24 17:22:01
+ * @FilePath: /flutter_2020_shop/README.md
+-->
 # flutter_2020
 
 A new Flutter project.
@@ -50,3 +57,10 @@ samples, guidance on mobile development, and a full API reference.
 商品详情 底部浮动导航布局 商品页面布局
  ## chapter_16
  商品详情 请求接口渲染数据 商品属性数据渲染
+ ## chapter_21
+ 购物车之 event_bus事件广播 事件监听
+ /services/EventBus.dart
+ /ProductCountent.dart
+ /ProductContentFirst.dart
+ 
+ 
