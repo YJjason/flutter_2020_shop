@@ -2,7 +2,7 @@
  * @Author: Jason_Ma
  * @Date: 2020-07-13 10:16:40
  * @LastEditors: Jason_Ma
- * @LastEditTime: 2020-09-24 17:22:01
+ * @LastEditTime: 2020-09-25 09:56:36
  * @FilePath: /flutter_2020_shop/README.md
 -->
 # flutter_2020
@@ -60,7 +60,14 @@ samples, guidance on mobile development, and a full API reference.
  ## chapter_21
  购物车之 event_bus事件广播 事件监听
  /services/EventBus.dart
- /ProductCountent.dart
+ /ProductContent.dart
  /ProductContentFirst.dart
+  ## chapter_22 
+ 购物车之 实现数量加减 以及获取加入购物车的数据29分13秒
+ /services/CartServices.dart
+/ProductContent/CartNum.dart
+/model/ProductContentModel.dart
+/ProductContent/ProductContentFirst.dart
+
  
  
