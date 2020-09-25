@@ -2,14 +2,10 @@
  * @Author: Jason_Ma
  * @Date: 2020-09-24 10:38:14
  * @LastEditors: Jason_Ma
- * @LastEditTime: 2020-09-24 16:42:01
+ * @LastEditTime: 2020-09-25 09:08:51
  * @FilePath: /flutter_2020_shop/lib/pages/Cart/CartItem.dart
  */
 import 'package:flutter/material.dart';
-import 'package:flutter_2020/services/ScreenAdapter.dart';
-// import 'package:provider/provider.dart';
-// import './../../provider/Cart.dart';
-
 import './CartNum.dart';
 import './../../services/ScreenAdapter.dart';
 

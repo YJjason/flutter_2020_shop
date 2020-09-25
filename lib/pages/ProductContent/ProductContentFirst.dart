@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import '../../config/config.dart';
 import '../../widget/JdButton.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import './../../services/CartServices.dart'; // 购物车数据
+import './../../services/ScreenAdapter.dart';
 import '../../model/ProductContentModel.dart';
 // 底部弹出商品属性
 // event_bus
 import './../../services/EventBus.dart';
+
+import './CartNum.dart';
 
 class ProductContentFirst extends StatefulWidget {
   final List _productContentList;
@@ -74,6 +75,8 @@ class _ProductContentFirstState extends State<ProductContentFirst>
     }
     setState(() {
       this._selectedValue = tempArr.join(',');
+      // 给选中属性赋值
+      this._productContent.selectedAttr = this._selectedValue;
     });
   }
 
@@ -105,7 +108,9 @@ class _ProductContentFirstState extends State<ProductContentFirst>
         Container(
           margin: EdgeInsets.all(10),
           child: InkWell(
-            onTap: () {},
+            onTap: () {
+              _changeAttr(attrItem, item['title'], setBottomState);
+            },
             child: Chip(
               label: Text("${item["title"]}"),
               padding: EdgeInsets.all(10),
@@ -125,15 +130,15 @@ class _ProductContentFirstState extends State<ProductContentFirst>
       attrList.add(Wrap(
         children: <Widget>[
           Container(
-            width: ScreenUtil().setWidth(120),
+            width: ScreenAdapter.width(120),
             child: Padding(
-              padding: EdgeInsets.only(top: ScreenUtil().setHeight(22)),
+              padding: EdgeInsets.only(top: ScreenAdapter.height(22)),
               child: Text("${attrItem.cate}: ",
                   style: TextStyle(fontWeight: FontWeight.bold)),
             ),
           ),
           Container(
-            width: ScreenUtil().setWidth(590),
+            width: ScreenAdapter.width(590),
             child: Wrap(
               children: _getAttrItemWidget(attrItem, setBottomState),
             ),
@@ -161,20 +166,40 @@ class _ProductContentFirstState extends State<ProductContentFirst>
               child: Stack(
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.all(ScreenUtil().setWidth(20)),
+                    padding: EdgeInsets.all(ScreenAdapter.width(20)),
                     child: ListView(
                       children: <Widget>[
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: _getAttrWidget(setBottomState),
                         ),
+                        Divider(),
+                        Container(
+                          margin: EdgeInsets.only(top: 10),
+                          height: ScreenAdapter.height(80),
+                          child: InkWell(
+                            onTap: () {
+                              _attrBottomSheet();
+                            },
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                  "数量",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(width: 10),
+                                CartNum(this._productContent),
+                              ],
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
                   Positioned(
                     bottom: 0,
-                    width: ScreenUtil().setWidth(750),
-                    height: ScreenUtil().setHeight(76),
+                    width: ScreenAdapter.width(750),
+                    height: ScreenAdapter.height(76),
                     child: Row(
                       children: <Widget>[
                         Expanded(
@@ -185,7 +210,10 @@ class _ProductContentFirstState extends State<ProductContentFirst>
                               color: Color.fromRGBO(253, 1, 0, 0.9),
                               text: "加入购物车",
                               cb: () {
-                                print('加入购物车');
+                                // print('加入购物车');
+                                CartServices.addCart(this._productContent);
+                                //关闭底部筛选属性
+                                Navigator.of(context).pop();
                               },
                             ),
                           ),
@@ -236,7 +264,7 @@ class _ProductContentFirstState extends State<ProductContentFirst>
             child: Text(
               '${this._productContent.title}',
               style: TextStyle(
-                  color: Colors.black87, fontSize: ScreenUtil().setSp(36)),
+                  color: Colors.black87, fontSize: ScreenAdapter.size(36)),
             ),
           ),
           Container(
@@ -244,7 +272,7 @@ class _ProductContentFirstState extends State<ProductContentFirst>
             child: Text(
               '${this._productContent.subTitle}',
               style: TextStyle(
-                  color: Colors.black87, fontSize: ScreenUtil().setSp(36)),
+                  color: Colors.black87, fontSize: ScreenAdapter.size(36)),
             ),
           ),
           Container(
@@ -260,7 +288,7 @@ class _ProductContentFirstState extends State<ProductContentFirst>
                         '¥${this._productContent.price}',
                         style: TextStyle(
                           color: Colors.red,
-                          fontSize: ScreenUtil().setSp(36),
+                          fontSize: ScreenAdapter.size(36),
                         ),
                       ),
                     ],
@@ -275,7 +303,7 @@ class _ProductContentFirstState extends State<ProductContentFirst>
                         '¥${this._productContent.oldPrice}',
                         style: TextStyle(
                           color: Colors.black38,
-                          fontSize: ScreenUtil().setSp(28),
+                          fontSize: ScreenAdapter.size(28),
                           decoration: TextDecoration.lineThrough,
                         ),
                       ),
@@ -288,7 +316,7 @@ class _ProductContentFirstState extends State<ProductContentFirst>
           // 筛选
           Container(
             margin: EdgeInsets.only(top: 10),
-            height: ScreenUtil().setHeight(80),
+            height: ScreenAdapter.height(80),
             child: InkWell(
               onTap: () {
                 _attrBottomSheet();
@@ -296,19 +324,19 @@ class _ProductContentFirstState extends State<ProductContentFirst>
               child: Row(
                 children: <Widget>[
                   Text(
-                    '已���',
+                    '已选',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Text('115,黑色')
+                  Text("${this._selectedValue}")
                 ],
               ),
             ),
           ),
           Divider(),
           Container(
-            height: ScreenUtil().setHeight(80),
+            height: ScreenAdapter.height(80),
             child: Row(
               children: <Widget>[
                 Text(

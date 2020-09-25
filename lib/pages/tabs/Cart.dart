@@ -2,17 +2,13 @@
  * @Author: Jason_Ma
  * @Date: 2020-07-13 10:16:40
  * @LastEditors: Jason_Ma
- * @LastEditTime: 2020-09-24 16:42:32
+ * @LastEditTime: 2020-09-25 09:54:29
  * @FilePath: /flutter_2020_shop/lib/pages/tabs/Cart.dart
  */
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import './../../services/ScreenAdapter.dart';
-// import 'package:provider/provider.dart';
-// import './../../provider/Cart.dart';
-// import './../../provider/Counter.dart';
 import './../Cart/CartItem.dart';
-// import './../Cart/CartNum.dart';
 
 class CartPage extends StatefulWidget {
   CartPage({Key key}) : super(key: key);
@@ -31,7 +27,6 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     ScreenAdapter.init(context);
-    // var counterProvider = Provider.of<Counter>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('购物车'),
