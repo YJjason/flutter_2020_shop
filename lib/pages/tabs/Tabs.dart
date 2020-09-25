@@ -1,5 +1,12 @@
+/*
+ * @Author: Jason_Ma
+ * @Date: 2020-09-23 16:37:57
+ * @LastEditors: Jason_Ma
+ * @LastEditTime: 2020-09-25 15:57:57
+ * @FilePath: /flutter_2020_shop/lib/pages/tabs/Tabs.dart
+ */
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import './../../services/ScreenAdapter.dart';
 import 'Cart.dart';
 import 'Category.dart';
 import 'Home.dart';
@@ -32,49 +39,11 @@ class _TabsState extends State<Tabs> {
 
   @override
   Widget build(BuildContext context) {
-    // ScreenUtil.init();
-    // ScreenUtil.init(width: 750, height: 1334, allowFontScaling: false);
-    ScreenUtil.init(context, width: 750, height: 1334, allowFontScaling: true);
+    ScreenAdapter.init(context);
     return Scaffold(
       /*  appBar: AppBar(
         title: Text('jdshop'),
       ), */
-      appBar: _currentIndex != 3
-          ? AppBar(
-              leading: IconButton(
-                icon: Icon(Icons.center_focus_weak,
-                    size: 28, color: Colors.black87),
-                onPressed: null,
-              ),
-              title: InkWell(
-                child: Container(
-                  height: ScreenUtil().setHeight(56),
-                  decoration: BoxDecoration(
-                      color: Color.fromRGBO(233, 233, 233, 0.8),
-                      borderRadius: BorderRadius.circular(30)),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(Icons.search),
-                      Text('笔记本',
-                          style: TextStyle(fontSize: ScreenUtil().setSp(28)))
-                    ],
-                  ),
-                ),
-                onTap: () {
-                  Navigator.pushNamed(context, '/search');
-                },
-              ),
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.message, size: 28, color: Colors.black87),
-                  onPressed: null,
-                )
-              ],
-            )
-          : AppBar(
-              title: Text('用户中心'),
-            ),
       //保持部分页面的状态：
       body: PageView(
         controller: this._pageController,

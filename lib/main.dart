@@ -2,7 +2,7 @@
  * @Author: Jason_Ma
  * @Date: 2020-09-23 16:37:57
  * @LastEditors: Jason_Ma
- * @LastEditTime: 2020-09-24 10:29:56
+ * @LastEditTime: 2020-09-25 11:06:37
  * @FilePath: /flutter_2020_shop/lib/main.dart
  */
 import 'package:flutter/material.dart';
@@ -13,7 +13,6 @@ import 'pages/tabs/Tabs.dart';
 // 引入provider 状态管理
 import 'package:provider/provider.dart';
 import './provider/Cart.dart';
-import './provider/Counter.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,7 +32,7 @@ class _MyAppState extends State<MyApp> {
     // 使用状态管理
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => Counter()),
+        // ChangeNotifierProvider(create: (context) => Counter()),
         ChangeNotifierProvider(create: (context) => Cart()),
       ],
       child: MaterialApp(

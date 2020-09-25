@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/screenutil.dart';
+import 'package:flutter/rendering.dart';
+import './../services/ScreenAdapter.dart';
 
 // 搜索 本地缓存
-
 import './../services/SearchServices.dart';
 
 class SearchPage extends StatefulWidget {
@@ -32,7 +32,7 @@ class _SearchPageState extends State<SearchPage> {
     });
   }
 
-  searchListData(keywords) async {
+  _showAlertDialog(keywords) async {
     var result = showDialog(
       barrierDismissible: false, //表示点击灰色背景的时候是否消失弹出框
       context: context,
@@ -60,6 +60,7 @@ class _SearchPageState extends State<SearchPage> {
         );
       },
     );
+    print("result -- ${result}");
   }
 
 // 历史 widget
@@ -78,6 +79,9 @@ class _SearchPageState extends State<SearchPage> {
                 children: <Widget>[
                   ListTile(
                     title: Text('${value}'),
+                    onLongPress: () {
+                      this._showAlertDialog("${value}");
+                    },
                   ),
                   Divider()
                 ],
@@ -94,8 +98,8 @@ class _SearchPageState extends State<SearchPage> {
                   this._getHistoryData();
                 },
                 child: Container(
-                  width: ScreenUtil().setWidth(400),
-                  height: ScreenUtil().setHeight(64),
+                  width: ScreenAdapter.width(400),
+                  height: ScreenAdapter.height(64),
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.black54, width: 1)),
                   child: Row(
@@ -128,7 +132,7 @@ class _SearchPageState extends State<SearchPage> {
               this._keywords = value;
             },
           ),
-          height: ScreenUtil().setHeight(68),
+          height: ScreenAdapter.height(68),
           decoration: BoxDecoration(
               color: Color.fromRGBO(233, 233, 233, 0.8),
               borderRadius: BorderRadius.circular(30)),
@@ -136,8 +140,8 @@ class _SearchPageState extends State<SearchPage> {
         actions: <Widget>[
           InkWell(
             child: Container(
-              height: ScreenUtil().setHeight(68),
-              width: ScreenUtil().setWidth(80),
+              height: ScreenAdapter.height(68),
+              width: ScreenAdapter.width(80),
               child: Row(
                 children: <Widget>[Text('搜索')],
               ),

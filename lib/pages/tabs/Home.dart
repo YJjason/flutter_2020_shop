@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_2020/services/SearchServices.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter/widgets.dart';
+
+// 热门推荐模型：
+import './../../model/ProductModel.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-
+import './../../services/ScreenAdapter.dart';
 // 引入接口以及 http  请求
-
 import './../../config/config.dart';
 import 'package:dio/dio.dart';
 //轮播图类模型：
 import './../../model/FocusModel.dart';
-// 热门推荐模型：
-import './../../model/ProductModel.dart';
-
-// 本地缓存
-import './../../services/SearchServices.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -108,14 +104,14 @@ class _HomePageState extends State<HomePage>
   // 标题
   Widget _titleWidget(value) {
     return Container(
-      height: ScreenUtil().setHeight(46),
-      margin: EdgeInsets.only(left: ScreenUtil().setWidth(20)),
-      padding: EdgeInsets.only(left: ScreenUtil().setWidth(20)),
+      height: ScreenAdapter.height(46),
+      margin: EdgeInsets.only(left: ScreenAdapter.width(20)),
+      padding: EdgeInsets.only(left: ScreenAdapter.width(20)),
       decoration: BoxDecoration(
         border: Border(
           left: BorderSide(
             color: Colors.red,
-            width: ScreenUtil().setWidth(10),
+            width: ScreenAdapter.width(10),
           ),
         ),
       ),
@@ -132,8 +128,8 @@ class _HomePageState extends State<HomePage>
   Widget _hotProductListWidget() {
     if (this._hotProductList.length > 0) {
       return Container(
-        height: ScreenUtil().setHeight(240),
-        padding: EdgeInsets.all(ScreenUtil().setWidth(20)),
+        height: ScreenAdapter.height(240),
+        padding: EdgeInsets.all(ScreenAdapter.width(20)),
         // width: double.infinity, //寬度自適應
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
@@ -143,14 +139,14 @@ class _HomePageState extends State<HomePage>
             return Column(
               children: <Widget>[
                 Container(
-                  height: ScreenUtil().setHeight(140),
-                  width: ScreenUtil().setWidth(140),
-                  margin: EdgeInsets.only(right: ScreenUtil().setWidth(21)),
+                  height: ScreenAdapter.height(140),
+                  width: ScreenAdapter.width(140),
+                  margin: EdgeInsets.only(right: ScreenAdapter.width(21)),
                   child: Image.network("${sPic}", fit: BoxFit.cover),
                 ),
                 Container(
-                  padding: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
-                  height: ScreenUtil().setHeight(44),
+                  padding: EdgeInsets.only(top: ScreenAdapter.height(10)),
+                  height: ScreenAdapter.height(44),
                   child: Text(
                     "￥${this._hotProductList[index].price}",
                     style: TextStyle(color: Colors.red),
@@ -169,7 +165,7 @@ class _HomePageState extends State<HomePage>
 
   // 首页商品列表
   Widget _recProductItemListWidget() {
-    var itemWidth = (ScreenUtil.screenWidth - 30) / 2;
+    var itemWidth = (ScreenAdapter.getScreenPxWidth() - 30) / 2;
     return Container(
       padding: EdgeInsets.all(10),
       child: Wrap(
@@ -189,7 +185,7 @@ class _HomePageState extends State<HomePage>
                   arguments: {"id": value.sId});
             },
             child: Container(
-              padding: EdgeInsets.all(ScreenUtil().setWidth(20)),
+              padding: EdgeInsets.all(ScreenAdapter.width(20)),
               width: itemWidth,
               decoration: BoxDecoration(
                   border: Border.all(color: Colors.black12, width: 1)),
@@ -203,7 +199,7 @@ class _HomePageState extends State<HomePage>
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
+                    padding: EdgeInsets.only(top: ScreenAdapter.height(10)),
                     child: Text(
                       "${value.title}",
                       maxLines: 2,
@@ -212,7 +208,7 @@ class _HomePageState extends State<HomePage>
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: ScreenUtil().setHeight(20)),
+                    padding: EdgeInsets.only(top: ScreenAdapter.height(20)),
                     child: Stack(
                       children: <Widget>[
                         Align(
@@ -250,12 +246,12 @@ class _HomePageState extends State<HomePage>
       children: <Widget>[
         _swiperWidget(),
         SizedBox(
-          height: ScreenUtil().setHeight(10),
+          height: ScreenAdapter.height(10),
         ),
         _titleWidget("猜你喜欢"),
         _hotProductListWidget(),
         SizedBox(
-          height: ScreenUtil().setHeight(10),
+          height: ScreenAdapter.height(10),
         ),
         _titleWidget("热门推荐"),
         _recProductItemListWidget(),

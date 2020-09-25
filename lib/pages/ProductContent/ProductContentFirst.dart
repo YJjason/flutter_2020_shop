@@ -7,6 +7,8 @@ import '../../model/ProductContentModel.dart';
 // 底部弹出商品属性
 // event_bus
 import './../../services/EventBus.dart';
+import 'package:provider/provider.dart';
+import './../../provider/Cart.dart';
 
 import './CartNum.dart';
 
@@ -26,6 +28,7 @@ class _ProductContentFirstState extends State<ProductContentFirst>
   bool get wantKeepAlive => true;
 
   var actionEventBus;
+  var cartProvider;
 
   @override
   void initState() {
@@ -209,11 +212,14 @@ class _ProductContentFirstState extends State<ProductContentFirst>
                             child: JdButton(
                               color: Color.fromRGBO(253, 1, 0, 0.9),
                               text: "加入购物车",
-                              cb: () {
+                              cb: () async {
                                 // print('加入购物车');
-                                CartServices.addCart(this._productContent);
+                                await CartServices.addCart(
+                                    this._productContent);
                                 //关闭底部筛选属性
                                 Navigator.of(context).pop();
+                                //调用Provider 更新数据
+                                this.cartProvider.updateCartList();
                               },
                             ),
                           ),
@@ -244,6 +250,7 @@ class _ProductContentFirstState extends State<ProductContentFirst>
 
   @override
   Widget build(BuildContext context) {
+    this.cartProvider = Provider.of<Cart>(context);
     // 图片处理
     String pic = Config.domain + this._productContent.pic;
     pic = pic.replaceAll('\\', "/");
@@ -254,10 +261,9 @@ class _ProductContentFirstState extends State<ProductContentFirst>
           AspectRatio(
             aspectRatio: 16 / 9,
             child: Image.network(
-              // 'https://www.itying.com/images/flutter/p1.jpg',
-              "${pic}",
-              fit: BoxFit.cover,
-            ),
+                // 'https://www.itying.com/images/flutter/p1.jpg',
+                "${pic}",
+                fit: BoxFit.cover),
           ),
           Container(
             padding: EdgeInsets.only(top: 10),

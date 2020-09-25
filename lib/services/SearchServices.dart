@@ -1,3 +1,10 @@
+/*
+ * @Author: Jason_Ma
+ * @Date: 2020-09-23 16:37:57
+ * @LastEditors: Jason_Ma
+ * @LastEditTime: 2020-09-25 16:21:49
+ * @FilePath: /flutter_2020_shop/lib/services/SearchServices.dart
+ */
 import 'dart:convert';
 import 'package:flutter/material.dart';
 
@@ -5,19 +12,17 @@ import 'Storage.dart';
 
 class SearchServices {
   static setHistoryData(keywords) async {
-    /**
-     * 1.获取本地存储里面的数据。(searchList)
-     * 2.判断本地存储是否有数据
-     * 2.1如果有数据：
-     *  1.读取本地存储的数据。
-     * 2.判断本地存储中有没有当前数据；
-     * 3.如果有不做操作
-     * 如果没有当前数据，本地存储的数据和当前数据拼接后重新写入。
-     * 2.2如果没有数据：
-     * 直接把当前数据放在数组中写入到本地存储。
-     * 
-     * 
-     *  */
+    /*
+      1、获取本地存储里面的数据  (searchList)
+      2、判断本地存储是否有数据
+          2.1、如果有数据 
+                1、读取本地存储的数据
+                2、判断本地存储中有没有当前数据，
+                    如果有不做操作、
+                    如果没有当前数据,本地存储的数据和当前数据拼接后重新写入           
+          2.2、如果没有数据
+                直接把当前数据放在数组中写入到本地存储
+      */
     try {
       List searchListData = json.decode(await Storage.getString('searchList'));
       var hasData = searchListData.any((v) {
@@ -44,12 +49,7 @@ class SearchServices {
   }
 
   static clearHistoryList() async {
-    try {
-      List searchListData = json.decode(await Storage.getString('searchList'));
-      return searchListData;
-    } catch (e) {
-      return [];
-    }
+    await Storage.remove('searchList');
   }
 
   static removeHistoryList(keywords) async {

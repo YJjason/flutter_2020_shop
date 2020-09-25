@@ -1,7 +1,8 @@
 // 商品列表
 import 'package:flutter/material.dart';
 import 'package:flutter_2020/services/SearchServices.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import './../services/SearchServices.dart';
+import './../services/ScreenAdapter.dart';
 import './../config/config.dart';
 import 'package:dio/dio.dart';
 
@@ -70,9 +71,9 @@ class _ProductListPageState extends State<ProductListPage> {
     //给search框框赋值：
     this._initKeywordsController.text = this._keywords;
 
-    widget.arguments['keywords'] == null
+    /*    widget.arguments['keywords'] == null
         ? this._initKeywordsController.text = ''
-        : this._initKeywordsController.text = widget.arguments['keywords'];
+        : this._initKeywordsController.text = widget.arguments['keywords']; */
 
     // 获取商品数据
     _getProductListData();
@@ -105,6 +106,17 @@ class _ProductListPageState extends State<ProductListPage> {
 
     var result = await Dio().get(api);
     var productList = ProductModel.fromJson(result.data);
+    //判断是否有搜索的数据：
+    if (productList.result.length == 0) {
+      setState(() {
+        this._hasData = false;
+      });
+    } else {
+      setState(() {
+        this._hasData = true;
+      });
+    }
+    //判断最后一页有没有数据
     if (productList.result.length < this._pageSize) {
       setState(() {
         this._productList.addAll(productList.result);
@@ -118,20 +130,10 @@ class _ProductListPageState extends State<ProductListPage> {
         this.flag = true;
       });
     }
-    //判断是否有搜索的数据：
-    if (productList.result.length == 0) {
-      setState(() {
-        this._hasData = false;
-      });
-    } else {
-      setState(() {
-        this._hasData = true;
-      });
-    }
   }
 
 //显示加载中的圈圈：
-  Widget _showMor(index) {
+  Widget _showMore(index) {
     if (this._hasMore) {
       return (index == this._productList.length - 1)
           ? LoadingWidget()
@@ -143,15 +145,102 @@ class _ProductListPageState extends State<ProductListPage> {
     }
   }
 
+  // 商品列表
+  Widget _productListWidget() {
+    if (this._productList.length > 0) {
+      return Container(
+        padding: EdgeInsets.all(10),
+        margin: EdgeInsets.only(top: ScreenAdapter.height(80)),
+        child: ListView.builder(
+          controller: _scrollController,
+          itemBuilder: (context, index) {
+            //处理图片：
+            String pic = this._productList[index].pic;
+            pic = Config.domain + pic.replaceAll('\\', '/');
+            //获得每一个元素：
+            return Column(
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Container(
+                      width: ScreenAdapter.width(180),
+                      height: ScreenAdapter.height(180),
+                      child: Image.network("${pic}", fit: BoxFit.cover),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        height: ScreenAdapter.height(180),
+                        margin: EdgeInsets.only(left: 10),
+                        // color: Colors.red,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              "${this._productList[index].title}",
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Container(
+                                  height: ScreenAdapter.height(36),
+                                  margin: EdgeInsets.only(right: 10),
+                                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                  //��意：如果Container里面加上decoration属性，这个时候color属性必须放到BoxDecoration
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    // color:Color.fromRGBO(230, 230, 230, 0.9)
+                                  ),
+                                  child: Text('4G'),
+                                ),
+                                Container(
+                                  height: ScreenAdapter.height(36),
+                                  margin: EdgeInsets.only(right: 10),
+                                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                  //注意：如果Container里面加上decoration属性，这个时候color属性必须放到BoxDecoration
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    // color:Color.fromRGBO(230, 230, 230, 0.3)
+                                  ),
+                                  child: Text('16G'),
+                                )
+                              ],
+                            ),
+                            Text("￥ ${this._productList[index].price}",
+                                style:
+                                    TextStyle(color: Colors.red, fontSize: 16))
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                Divider(
+                  height: 20,
+                ),
+                _showMore(index)
+              ],
+            );
+          },
+          itemCount: this._productList.length,
+        ),
+      );
+    } else {
+      return LoadingWidget();
+    }
+  }
+
   //筛选导航：
   Widget _subHeaderWidget() {
     return Positioned(
       top: 0,
-      height: ScreenUtil().setHeight(80),
-      width: ScreenUtil().setWidth(750),
+      height: ScreenAdapter.height(80),
+      width: ScreenAdapter.width(750),
       child: Container(
-        height: ScreenUtil().setHeight(80),
-        width: ScreenUtil().setWidth(750),
+        height: ScreenAdapter.height(80),
+        width: ScreenAdapter.width(750),
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
@@ -166,8 +255,8 @@ class _ProductListPageState extends State<ProductListPage> {
               flex: 1,
               child: InkWell(
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(0, ScreenUtil().setHeight(20), 0,
-                      ScreenUtil().setHeight(20)),
+                  padding: EdgeInsets.fromLTRB(
+                      0, ScreenAdapter.height(20), 0, ScreenAdapter.height(20)),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -192,106 +281,6 @@ class _ProductListPageState extends State<ProductListPage> {
         ),
       ),
     );
-  }
-
-  //显示加载中的圈圈：
-  _showMore(index) {
-    if (this._hasMore) {
-      return (index == this._productList.length - 1)
-          ? LoadingWidget()
-          : Text('');
-    } else {
-      return (index == this._productList.length - 1)
-          ? Text("---暂无其他数据了--")
-          : Text('');
-    }
-  }
-
-  // 商品列表
-  Widget _productListWidget() {
-    if (this._productList.length > 0) {
-      return Container(
-        padding: EdgeInsets.all(10),
-        margin: EdgeInsets.only(top: ScreenUtil().setHeight(80)),
-        child: ListView.builder(
-          controller: _scrollController,
-          itemBuilder: (context, index) {
-            //处理图片：
-            String pic = this._productList[index].pic;
-            pic = Config.domain + pic.replaceAll('\\', '/');
-            //获得每一个元素：
-            return Column(
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Container(
-                      width: ScreenUtil().setWidth(180),
-                      height: ScreenUtil().setHeight(180),
-                      child: Image.network("${pic}", fit: BoxFit.cover),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Container(
-                        height: ScreenUtil().setHeight(180),
-                        margin: EdgeInsets.only(left: 10),
-                        // color: Colors.red,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              "${this._productList[index].title}",
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Container(
-                                  height: ScreenUtil().setHeight(36),
-                                  margin: EdgeInsets.only(right: 10),
-                                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                  //��意：如果Container里面加上decoration属性，这个时候color属性必须放到BoxDecoration
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    // color:Color.fromRGBO(230, 230, 230, 0.9)
-                                  ),
-                                  child: Text('4G'),
-                                ),
-                                Container(
-                                  height: ScreenUtil().setHeight(36),
-                                  margin: EdgeInsets.only(right: 10),
-                                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                  //注意：如果Container里面加上decoration属性，这个时候color属性必须放到BoxDecoration
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    // color:Color.fromRGBO(230, 230, 230, 0.3)
-                                  ),
-                                  child: Text('16G'),
-                                )
-                              ],
-                            ),
-                            Text("￥ ${this._productList[index].price}",
-                                style:
-                                    TextStyle(color: Colors.red, fontSize: 16))
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                Divider(
-                  height: 20,
-                ),
-                this._showMore(index)
-              ],
-            );
-          },
-          itemCount: this._productList.length,
-        ),
-      );
-    } else {
-      return LoadingWidget();
-    }
   }
 
   //导航改变的时候触发：
@@ -351,7 +340,7 @@ class _ProductListPageState extends State<ProductListPage> {
               });
             },
           ),
-          height: ScreenUtil().setHeight(68),
+          height: ScreenAdapter.height(68),
           decoration: BoxDecoration(
             color: Color.fromRGBO(233, 233, 233, 0.8),
             borderRadius: BorderRadius.circular(10),
@@ -360,8 +349,8 @@ class _ProductListPageState extends State<ProductListPage> {
         actions: <Widget>[
           InkWell(
             child: Container(
-              height: ScreenUtil().setHeight(68),
-              width: ScreenUtil().setWidth(80),
+              height: ScreenAdapter.height(68),
+              width: ScreenAdapter.width(80),
               child: Row(
                 children: <Widget>[Text("搜索")],
               ),

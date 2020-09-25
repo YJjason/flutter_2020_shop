@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:flutter_screenutil/flutter_screenutil.dart';
+import './../services/ScreenAdapter.dart';
 import 'ProductContent/ProductContentFirst.dart';
 import './ProductContent/ProductContentSecond.dart';
 import './ProductContent/ProductContentThird.dart';
@@ -12,6 +13,9 @@ import './../widget/JdButton.dart';
 import './../model/ProductContentModel.dart';
 // event_bus
 import './../services/EventBus.dart';
+import 'package:provider/provider.dart';
+import './../provider/Cart.dart';
+import './../services/CartServices.dart';
 
 class ProductContentPage extends StatefulWidget {
   final Map arguments;
@@ -42,6 +46,7 @@ class _ProductContentPageState extends State<ProductContentPage> {
 
   @override
   Widget build(BuildContext context) {
+    var cartProvider = Provider.of<Cart>(context);
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -50,7 +55,7 @@ class _ProductContentPageState extends State<ProductContentPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                width: ScreenUtil().setWidth(400),
+                width: ScreenAdapter.width(400),
                 child: TabBar(
                   indicatorColor: Colors.red,
                   indicatorSize: TabBarIndicatorSize.label,
@@ -76,7 +81,7 @@ class _ProductContentPageState extends State<ProductContentPage> {
                 showMenu(
                   context: context,
                   position: RelativeRect.fromLTRB(
-                      ScreenUtil().setWidth(600), 76, 10, 0),
+                      ScreenAdapter.width(600), 76, 10, 0),
                   items: [
                     PopupMenuItem(
                       child: Row(
@@ -105,8 +110,8 @@ class _ProductContentPageState extends State<ProductContentPage> {
                     ],
                   ),
                   Positioned(
-                    width: ScreenUtil().setWidth(750),
-                    height: ScreenUtil().setHeight(88),
+                    width: ScreenAdapter.width(750),
+                    height: ScreenAdapter.height(88),
                     bottom: 0,
                     child: Container(
                       decoration: BoxDecoration(
@@ -116,10 +121,10 @@ class _ProductContentPageState extends State<ProductContentPage> {
                       child: Row(
                         children: <Widget>[
                           Container(
-                            padding: EdgeInsets.only(
-                                top: ScreenUtil().setHeight(10)),
+                            padding:
+                                EdgeInsets.only(top: ScreenAdapter.height(10)),
                             width: 100,
-                            height: ScreenUtil().setHeight(88),
+                            height: ScreenAdapter.height(88),
                             child: Column(
                               children: <Widget>[
                                 Icon(Icons.shopping_cart),
@@ -132,7 +137,7 @@ class _ProductContentPageState extends State<ProductContentPage> {
                             child: JdButton(
                               color: Color.fromRGBO(253, 1, 0, 0.9),
                               text: "加入购物车",
-                              cb: () {
+                              cb: () async {
                                 // print('加入购物车');
                                 if (this._productContentList[0].attr.length >
                                     0) {
@@ -140,7 +145,11 @@ class _ProductContentPageState extends State<ProductContentPage> {
                                   eventBus
                                       .fire(new ProductContentEvent('加入购物车'));
                                 } else {
-                                  print("加入购物车操作");
+                                  // print("加入购物车操作");
+                                  await CartServices.addCart(
+                                      this._productContentList[0]);
+                                  //调用Provider 更新数据
+                                  cartProvider.updateCartList();
                                 }
                               },
                             ),

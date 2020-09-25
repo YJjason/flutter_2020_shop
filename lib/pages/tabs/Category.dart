@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import './../../services/ScreenAdapter.dart';
 import './../../config/config.dart';
 import 'package:dio/dio.dart';
 
@@ -72,8 +72,8 @@ class _CategoryPageState extends State<CategoryPage>
                   },
                   child: Container(
                     width: double.infinity,
-                    height: ScreenUtil().setHeight(56),
-                    padding: EdgeInsets.only(top: ScreenUtil().setHeight(24)),
+                    height: ScreenAdapter.height(56),
+                    padding: EdgeInsets.only(top: ScreenAdapter.height(24)),
                     child: Text(
                       '${this._leftCateList[index].title}',
                       textAlign: TextAlign.center,
@@ -132,7 +132,7 @@ class _CategoryPageState extends State<CategoryPage>
                         ),
                       ),
                       Container(
-                        height: ScreenUtil().setHeight(32),
+                        height: ScreenAdapter.height(32),
                         child: Text('${this._rightCateList[index].title}'),
                       )
                     ],
@@ -170,11 +170,12 @@ class _CategoryPageState extends State<CategoryPage>
   Widget build(BuildContext context) {
     //计算右侧GridView宽高比：
     // var leftWidth = ScreenAdapter.getScreenWidth() / 4;
-    var leftWidth = ScreenUtil.screenWidth / 4;
+    var leftWidth = ScreenAdapter.getScreenPxWidth() / 4;
     //右侧宽高=总宽度-左侧宽度-Gridview外层元素左右的Padding值-GridView中间的间距
-    var rightItemWidth = (ScreenUtil.screenWidth - leftWidth - 20 - 30) / 3;
-    rightItemWidth = ScreenUtil().setWidth(rightItemWidth);
-    var rightItemHeight = rightItemWidth + ScreenUtil().setHeight(32);
+    var rightItemWidth =
+        (ScreenAdapter.getScreenPxWidth() - leftWidth - 20 - 30) / 3;
+    rightItemWidth = ScreenAdapter.width(rightItemWidth);
+    var rightItemHeight = rightItemWidth + ScreenAdapter.height(32);
     return Row(
       children: <Widget>[
         _leftCateWidget(leftWidth),
