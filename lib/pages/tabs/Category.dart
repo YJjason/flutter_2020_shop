@@ -47,12 +47,9 @@ class _CategoryPageState extends State<CategoryPage>
     setState(() {
       this._rightCateList = rightCateList.result;
     });
-    this._rightCateList.map((value) {
-      print('211111----${value.title}');
-    });
   }
-  // 左侧组件
 
+  // 左侧组件
   Widget _leftCateWidget(leftWidth) {
     if (this._leftCateList.length > 0) {
       return Container(
@@ -139,7 +136,6 @@ class _CategoryPageState extends State<CategoryPage>
                   ),
                 ),
                 onTap: () {
-                  print('sId-----${this._rightCateList[index].sId}');
                   Navigator.pushNamed(
                     context,
                     '/productList',
@@ -168,19 +164,70 @@ class _CategoryPageState extends State<CategoryPage>
 
   @override
   Widget build(BuildContext context) {
+    //注意用ScreenAdapter必须得在build方法里面初始化
+    ScreenAdapter.init(context);
     //计算右侧GridView宽高比：
-    // var leftWidth = ScreenAdapter.getScreenWidth() / 4;
+    // 左侧宽度
     var leftWidth = ScreenAdapter.getScreenPxWidth() / 4;
-    //右侧宽高=总宽度-左侧宽度-Gridview外层元素左右的Padding值-GridView中间的间距
+    //右侧每一项宽度=（总宽度-左侧宽度-GridView外侧元素左右的Padding值-GridView中间的间距）/3
     var rightItemWidth =
         (ScreenAdapter.getScreenPxWidth() - leftWidth - 20 - 30) / 3;
+    //获取计算后的宽度
     rightItemWidth = ScreenAdapter.width(rightItemWidth);
-    var rightItemHeight = rightItemWidth + ScreenAdapter.height(32);
-    return Row(
-      children: <Widget>[
-        _leftCateWidget(leftWidth),
-        _rightCateWidget(rightItemWidth, rightItemHeight),
-      ],
+    //获取计算后的高度
+    var rightItemHeight = rightItemWidth + ScreenAdapter.height(28);
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(
+            Icons.center_focus_weak,
+            size: 28,
+            color: Colors.black87,
+          ),
+          onPressed: null,
+        ),
+        title: InkWell(
+          child: Container(
+            height: ScreenAdapter.height(68),
+            decoration: BoxDecoration(
+              color: Color.fromRGBO(233, 233, 233, 0.8),
+              borderRadius: BorderRadius.circular(30),
+            ),
+            padding: EdgeInsets.only(left: 10),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Icon(Icons.search),
+                Text(
+                  '笔记本',
+                  style: TextStyle(
+                    fontSize: ScreenAdapter.size(28),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          onTap: () {
+            Navigator.pushNamed(context, '/search');
+          },
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.message,
+              size: 28,
+              color: Colors.black87,
+            ),
+            onPressed: null,
+          ),
+        ],
+      ),
+      body: Row(
+        children: <Widget>[
+          _leftCateWidget(leftWidth),
+          _rightCateWidget(rightItemWidth, rightItemHeight)
+        ],
+      ),
     );
   }
 }

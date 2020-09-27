@@ -2,12 +2,14 @@
  * @Author: Jason_Ma
  * @Date: 2020-09-24 10:51:54
  * @LastEditors: Jason_Ma
- * @LastEditTime: 2020-09-25 11:52:14
+ * @LastEditTime: 2020-09-27 16:17:03
  * @FilePath: /flutter_2020_shop/lib/pages/Cart/CartNum.dart
  */
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import '../../services/ScreenAdapter.dart';
+import 'package:provider/provider.dart';
+import './../../provider/Cart.dart';
 
 class CartNum extends StatefulWidget {
   Map _itemData;
@@ -19,6 +21,7 @@ class CartNum extends StatefulWidget {
 
 class _CartNumState extends State<CartNum> {
   Map _itemData;
+  var cartProvider;
   @override
   void initState() {
     // TODO: implement initState
@@ -28,6 +31,7 @@ class _CartNumState extends State<CartNum> {
 
   @override
   Widget build(BuildContext context) {
+    this.cartProvider = Provider.of<Cart>(context);
     return Container(
       width: ScreenAdapter.width(164),
       decoration: BoxDecoration(
@@ -45,7 +49,12 @@ class _CartNumState extends State<CartNum> {
   // 左侧按钮
   Widget _leftBtn() {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        if (_itemData['count'] > 1) {
+          _itemData['count']--;
+          this.cartProvider.itemCountChange();
+        }
+      },
       child: Container(
         alignment: Alignment.center,
         width: ScreenAdapter.width(45),
@@ -59,7 +68,8 @@ class _CartNumState extends State<CartNum> {
   Widget _rightBtn() {
     return InkWell(
       onTap: () {
-        setState(() {});
+        _itemData['count']++;
+        this.cartProvider.itemCountChange();
       },
       child: Container(
         alignment: Alignment.center,

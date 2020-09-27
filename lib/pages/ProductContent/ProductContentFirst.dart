@@ -259,7 +259,7 @@ class _ProductContentFirstState extends State<ProductContentFirst>
       child: ListView(
         children: <Widget>[
           AspectRatio(
-            aspectRatio: 16 / 9,
+            aspectRatio: 16 / 12,
             child: Image.network(
                 // 'https://www.itying.com/images/flutter/p1.jpg',
                 "${pic}",

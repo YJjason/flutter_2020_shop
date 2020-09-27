@@ -330,7 +330,7 @@ class _ProductListPageState extends State<ProductListPage> {
             autofocus: true,
             decoration: InputDecoration(
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(30),
                 borderSide: BorderSide.none,
               ),
             ),

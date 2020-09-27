@@ -2,7 +2,7 @@
  * @Author: Jason_Ma
  * @Date: 2020-07-13 10:16:40
  * @LastEditors: Jason_Ma
- * @LastEditTime: 2020-09-25 12:04:06
+ * @LastEditTime: 2020-09-27 16:44:54
  * @FilePath: /flutter_2020_shop/lib/pages/tabs/Cart.dart
  */
 import 'package:flutter/material.dart';
@@ -74,8 +74,12 @@ class _CartPageState extends State<CartPage> {
                               Container(
                                 width: ScreenAdapter.width(60),
                                 child: Checkbox(
-                                  value: false,
-                                  onChanged: (val) {},
+                                  value: cartProvider.isCheckedAll,
+                                  onChanged: (val) {
+                                    print('val--- ${val}');
+                                    //实现全选或者反选
+                                    cartProvider.checkAll(val);
+                                  },
                                   activeColor: Colors.pink,
                                 ),
                               ),
